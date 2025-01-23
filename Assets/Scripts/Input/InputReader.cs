@@ -9,6 +9,8 @@ public class InputReader : ScriptableObject, IPlayerActions
     public event Action<bool> OnPrimaryFireEvent;
     public event Action<Vector2> OnMoveEvent;
 
+    public Vector2 aimPosition { get; private set; }
+
     private Controls controls;
 
     private void OnEnable()
@@ -37,5 +39,10 @@ public class InputReader : ScriptableObject, IPlayerActions
         {
             OnPrimaryFireEvent?.Invoke(false);
         }
+    }
+
+    public void OnAim(InputAction.CallbackContext context)
+    {
+        aimPosition = context.ReadValue<Vector2>();
     }
 }
