@@ -43,6 +43,7 @@ public class ProjectileLauncher : NetworkBehaviour
 
     private void Update()
     {
+
         if (muzzleFlashTimer > 0f)
         {
             muzzleFlashTimer -= Time.deltaTime;
@@ -51,6 +52,7 @@ public class ProjectileLauncher : NetworkBehaviour
                 muzzleFlash.SetActive(false);
             }
         }
+
 
         if (!IsOwner) return;
 
