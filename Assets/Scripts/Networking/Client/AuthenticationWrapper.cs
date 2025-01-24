@@ -52,13 +52,13 @@ public static class AuthenticationWrapper
                     break;
                 }
 
-            } catch (AuthenticationException ex)
+            } catch (AuthenticationException authEx)
             {
-                Debug.LogError(ex);
+                Debug.LogError(authEx);
                 AuthState = AuthState.Error;
-            } catch (RequestFailedException exeption)
+            } catch (RequestFailedException requestEx)
             {
-                Debug.LogError(exeption);
+                Debug.LogError(requestEx);
                 AuthState = AuthState.Error;
             }
 
