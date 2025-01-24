@@ -5,7 +5,7 @@ public abstract class Coin : NetworkBehaviour
 {
     [SerializeField] private GameObject coinGFX;
 
-    protected int coinValue = 10;
+    protected int coinValue;
     protected bool alreadyCollected;
 
     public abstract int Collect();

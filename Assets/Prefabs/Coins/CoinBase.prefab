@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3884784610233087525}
   - component: {fileID: 5813921251058991865}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 2255797053390332229}
   - component: {fileID: 7408385447799656688}
   - component: {fileID: 7775665506317380674}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CoinBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ MonoBehaviour:
   SyncPositionZ: 0
   SyncRotAngleX: 0
   SyncRotAngleY: 0
-  SyncRotAngleZ: 1
+  SyncRotAngleZ: 0
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
