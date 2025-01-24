@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ProjectileLauncher : NetworkBehaviour
 {
+    public event Action OnPrimaryFire;
+
     [Header("Input")]
     [SerializeField] private InputReader inputReader;
 
@@ -15,21 +17,31 @@ public class ProjectileLauncher : NetworkBehaviour
 
     [SerializeField] private GameObject muzzleFlash;
     [SerializeField] private Collider2D playerCollider;
+    [SerializeField] private CoinWallet coinWallet;
 
     [Header("Settings")]
     [SerializeField] private float projectileSpeed = 10f;
-    [SerializeField] private float fireRate = 0.5f;
+    [Tooltip("0.5 = 1 bullet each 0.5 secconds")]
+    [SerializeField] private float cooldownToFire = 0.5f;
+
+    [SerializeField] private int costToFire;
+
     [Space]
 
     [SerializeField] private float muzzleFlashDuration;
 
     private bool shouldFire;
-    private float previousFireTime;
+    private float cooldownToFireTimer;
     private float muzzleFlashTimer;
+
+    public float GetCooldownToFire() => cooldownToFire;
+    public float GetCooldownToFireTimer() => cooldownToFireTimer;
 
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) return;
+
+        cooldownToFireTimer = cooldownToFire;
 
         inputReader.OnPrimaryFireEvent += HandlePrimaryFire_OnPrimaryFireEvent;
     }
@@ -56,15 +68,22 @@ public class ProjectileLauncher : NetworkBehaviour
 
         if (!IsOwner) return;
 
+        if(cooldownToFireTimer < cooldownToFire)
+            cooldownToFireTimer += Time.deltaTime;
+
         if (!shouldFire) return;
 
-        if(Time.time < (1 / fireRate) + previousFireTime) return;
+        if(cooldownToFireTimer < cooldownToFire) return;
+
+        if (!coinWallet.CanSpendCoins(costToFire)) return;
 
         PrimaryFireRpc(projectileSpawnPoint.position, projectileSpawnPoint.up);
 
         SpawnDummyProjectile(projectileSpawnPoint.position, projectileSpawnPoint.up);
 
-        previousFireTime = Time.time;
+        cooldownToFireTimer = 0f;
+
+        OnPrimaryFire?.Invoke();
     }
 
     private void SpawnDummyProjectile(Vector3 spawnPos, Vector3 direction)
@@ -97,6 +116,10 @@ public class ProjectileLauncher : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void PrimaryFireRpc(Vector3 spawnPos, Vector3 direction)
     {
+        if (!coinWallet.CanSpendCoins(costToFire)) return;
+
+        coinWallet.SpendCoins(costToFire);
+
         GameObject projectileInstance = Instantiate(serverProjectilePrefab, spawnPos, Quaternion.identity);
 
         projectileInstance.transform.up = direction;
@@ -122,5 +145,4 @@ public class ProjectileLauncher : NetworkBehaviour
         this.shouldFire = shouldFire;
     }
 
-    
 }
