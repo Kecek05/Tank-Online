@@ -62,6 +62,7 @@ public static class AuthenticationWrapper
                 AuthState = AuthState.Error;
             }
 
+
             tries++;
 
             await Task.Delay(1000);
