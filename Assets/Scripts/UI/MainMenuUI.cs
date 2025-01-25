@@ -9,6 +9,11 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Button lobbiesBtn;
     [SerializeField] private Button exitBtn;
     [SerializeField] private TMP_InputField lobbyCodeInputField;
+
+    [Header("Lobby UI")]
+    [SerializeField] private GameObject lobbyBackgroundUI;
+    [SerializeField] private Button closeLobbyBackgroundBtn;
+
     private async void Awake()
     {
         hostBtn.onClick.AddListener(async () =>
@@ -26,6 +31,21 @@ public class MainMenuUI : MonoBehaviour
         {
             await ClientSingleton.Instance.GameManager.StartClientAsync(lobbyCodeInputField.text);
         });
+
+        lobbiesBtn.onClick.AddListener(() =>
+        {
+            lobbyBackgroundUI.SetActive(true);
+        });
+
+        closeLobbyBackgroundBtn.onClick.AddListener(() =>
+        {
+            lobbyBackgroundUI.SetActive(false);
+        });
+    }
+
+    private void Start()
+    {
+        lobbyBackgroundUI.SetActive(false);
     }
 
 
