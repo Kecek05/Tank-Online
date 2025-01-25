@@ -1917,6 +1917,7 @@ MonoBehaviour:
   hostBtn: {fileID: 2107550038}
   lobbiesBtn: {fileID: 325311535}
   exitBtn: {fileID: 1048627049}
+  lobbyCodeInputField: {fileID: 1957240866}
 --- !u!1 &1547178119
 GameObject:
   m_ObjectHideFlags: 0
