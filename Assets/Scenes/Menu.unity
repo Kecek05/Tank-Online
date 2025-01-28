@@ -161,6 +161,7 @@ GameObject:
   - component: {fileID: 116340334}
   - component: {fileID: 116340336}
   - component: {fileID: 116340335}
+  - component: {fileID: 116340337}
   m_Layer: 0
   m_Name: LobbiesBackground
   m_TagString: Untagged
@@ -229,6 +230,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 116340333}
   m_CullTransparentMesh: 1
+--- !u!114 &116340337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116340333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bcc1b6ae5719f0498e596de2aca862e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lobbyItemPrefab: {fileID: 9168267868966057679, guid: 061a807fed6ba8a4986246a4c5204753, type: 3}
+  lobbyItemParent: {fileID: 1312226212}
+  refreshBtn: {fileID: 1316515754}
 --- !u!1 &176927909
 GameObject:
   m_ObjectHideFlags: 0
