@@ -120,10 +120,29 @@ public static class AuthenticationWrapper
 
 
             playerName = await AuthenticationService.Instance.GetPlayerNameAsync();
+
             Debug.Log(playerName);
 
             ClientSingleton.Instance.GameManager.GoToMenu();
 
+        }
+        catch (AuthenticationException ex)
+        {
+            Debug.LogException(ex);
+        }
+        catch (RequestFailedException ex)
+        {
+            Debug.LogException(ex);
+        }
+    }
+
+    public static async Task RenamePlayerName(string newName)
+    {
+        try
+        {
+            await AuthenticationService.Instance.UpdatePlayerNameAsync(newName);
+            playerName = newName;
+            Debug.Log("Player name changed to: " + newName);
         }
         catch (AuthenticationException ex)
         {
