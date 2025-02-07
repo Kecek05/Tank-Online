@@ -1,5 +1,7 @@
+using System;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
+using Unity.Services.Authentication.PlayerAccounts;
 using Unity.Services.Core;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,7 +21,9 @@ public static class AuthenticationWrapper
             return AuthState;
         }
 
-        await SignInAnonymouslyAsync(maxTries);
+        //await SignInAnonymouslyAsync(maxTries);
+
+        await InitSignIn();
 
         return AuthState;
     }
@@ -33,6 +37,63 @@ public static class AuthenticationWrapper
 
         return AuthState;
     }
+
+    private static async Task InitSignIn()
+    {
+        AuthState = AuthState.Authenticating;
+
+        PlayerAccountService.Instance.SignedIn += SignedIn;
+
+        await PlayerAccountService.Instance.StartSignInAsync();
+    }
+
+    private static async void SignedIn()
+    {
+        try
+        {
+            var accessToken = PlayerAccountService.Instance.AccessToken;
+            await SignInWithUnityAsync(accessToken);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+        }
+    }
+
+    private static async Task SignInWithUnityAsync(string accessToken)
+    {
+        try
+        {
+            await AuthenticationService.Instance.SignInWithUnityAsync(accessToken);
+            Debug.Log("SignIn successfull.");
+            AuthState = AuthState.Authenticated;
+
+
+            string playerName = await AuthenticationService.Instance.GetPlayerNameAsync();
+            Debug.Log(playerName);
+
+
+
+
+            PlayerAccountService.Instance.SignedIn -= SignedIn;
+
+            //OnSignedInSuccess?.Invoke(this, EventArgs.Empty);
+
+            //RefreshLobbyList();
+
+            ClientSingleton.Instance.GameManager.GoToMenu();
+
+        }
+        catch (AuthenticationException ex)
+        {
+            Debug.LogException(ex);
+        }
+        catch (RequestFailedException ex)
+        {
+            Debug.LogException(ex);
+        }
+    }
+
 
     private static async Task SignInAnonymouslyAsync(int maxTries = 5)
     {
