@@ -8,7 +8,10 @@ public class AuthenticationController : MonoBehaviour
     {
         await Task.Delay(1000);
 
-        await ClientSingleton.Instance.AuthClient();
+
+        if(ClientSingleton.Instance != null)
+            await ClientSingleton.Instance.AuthClient();
+         
     }
 
 }
