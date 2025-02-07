@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 public class ClientGameManager
 {
     private const string MENU_SCENE = "Menu";
+    private const string AUTH_SCENE = "AuthBootstrap";
 
     private JoinAllocation joinAllocation;
 
@@ -37,6 +38,11 @@ public class ClientGameManager
     public void GoToMenu()
     {
         SceneManager.LoadScene(MENU_SCENE);
+    }
+
+    public void GoToAuth()
+    {
+        SceneManager.LoadScene(AUTH_SCENE);
     }
 
     public async Task StartClientAsync(string joinCode)

@@ -1,16 +1,24 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInfoUI : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private TextMeshProUGUI playerNameXTxt;
+    [SerializeField] private Button logoutBtn;
+
+
+    private void Awake()
     {
-        
+        logoutBtn.onClick.AddListener(() =>
+        {
+            AuthenticationWrapper.SignOutAuth();
+        });
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void Start()
     {
-        
+        playerNameXTxt.text = AuthenticationWrapper.PlayerName.ToString();
     }
 }

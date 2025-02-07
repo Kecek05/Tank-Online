@@ -31,10 +31,13 @@ public class ClientSingleton : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public async Task<bool> CreateClient()
+    public void CreateClient()
     {
         GameManager = new ClientGameManager();
+    }
 
+    public async Task<bool> AuthClient()
+    {
         return await GameManager.InitAsync();
     }
 }

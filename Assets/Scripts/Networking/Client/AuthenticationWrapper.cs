@@ -10,6 +10,9 @@ public static class AuthenticationWrapper
 {
     public static AuthState AuthState { get; private set; } = AuthState.NotAuthenticated;
 
+    private static string playerName;
+    public static string PlayerName => playerName;
+
     public static async Task<AuthState> DoAuth(int maxTries = 5)
     {
         if (AuthState == AuthState.Authenticated) return AuthState;
@@ -38,13 +41,53 @@ public static class AuthenticationWrapper
         return AuthState;
     }
 
+    public static void SignOutAuth()
+    {
+        try
+        {
+            PlayerAccountService.Instance.SignOut();
+            AuthenticationService.Instance.SignOut();
+
+            PlayerPrefs.DeleteKey("AccessToken");
+            AuthState = AuthState.NotAuthenticated;
+            Debug.Log("SignOut successfull.");
+
+            ClientSingleton.Instance.GameManager.GoToAuth();
+
+        }
+        catch (AuthenticationException ex)
+        {
+            Debug.LogException(ex);
+        }
+        catch (RequestFailedException ex)
+        {
+            Debug.LogException(ex);
+        }
+    }
+
     private static async Task InitSignIn()
     {
         AuthState = AuthState.Authenticating;
 
-        PlayerAccountService.Instance.SignedIn += SignedIn;
 
-        await PlayerAccountService.Instance.StartSignInAsync();
+
+        if (PlayerPrefs.HasKey("AccessToken"))
+        {
+            Debug.Log("PlayerPrefs");
+            string accessTokenPlayerPrefs = PlayerPrefs.GetString("AccessToken");
+
+            await SignInWithUnityAsync(accessTokenPlayerPrefs);
+
+        }
+        else
+        {
+
+            PlayerAccountService.Instance.SignedIn += SignedIn;
+
+            await PlayerAccountService.Instance.StartSignInAsync();
+
+        }
+
     }
 
     private static async void SignedIn()
@@ -53,11 +96,15 @@ public static class AuthenticationWrapper
         {
             var accessToken = PlayerAccountService.Instance.AccessToken;
             await SignInWithUnityAsync(accessToken);
+
+            
         }
         catch (Exception ex)
         {
             Debug.LogException(ex);
         }
+
+        PlayerAccountService.Instance.SignedIn -= SignedIn;
     }
 
     private static async Task SignInWithUnityAsync(string accessToken)
@@ -66,20 +113,14 @@ public static class AuthenticationWrapper
         {
             await AuthenticationService.Instance.SignInWithUnityAsync(accessToken);
             Debug.Log("SignIn successfull.");
+
+            PlayerPrefs.SetString("AccessToken", accessToken);
+
             AuthState = AuthState.Authenticated;
 
 
-            string playerName = await AuthenticationService.Instance.GetPlayerNameAsync();
+            playerName = await AuthenticationService.Instance.GetPlayerNameAsync();
             Debug.Log(playerName);
-
-
-
-
-            PlayerAccountService.Instance.SignedIn -= SignedIn;
-
-            //OnSignedInSuccess?.Invoke(this, EventArgs.Empty);
-
-            //RefreshLobbyList();
 
             ClientSingleton.Instance.GameManager.GoToMenu();
 

@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/NetBootstrap.unity
     guid: 44b9da00626d69f43af1adf820a45783
   - enabled: 1
+    path: Assets/Scenes/AuthBootstrap.unity
+    guid: 6fe8e79a6ef411d4db5fadf73b53c759
+  - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: cbfa284f56741bb4fa9d9189d1297f10
   - enabled: 1
