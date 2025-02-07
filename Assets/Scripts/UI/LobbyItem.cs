@@ -14,11 +14,7 @@ public class LobbyItem : MonoBehaviour
 
     private void Awake()
     {
-        joinBtn.onClick.AddListener(() =>
-        {
-            // call to join the lobby
-            lobbiesList.JoinAsync(lobby);
-        });
+
     }
 
 
@@ -29,6 +25,13 @@ public class LobbyItem : MonoBehaviour
 
         lobbyNameTxt.text = lobby.Name;
         lobbyPlayersTxt.text = $"{lobby.Players.Count}/{lobby.MaxPlayers}";
+
+
+        joinBtn.onClick.AddListener(() =>
+        {
+            // call to join the lobby
+            lobbiesList.JoinAsync(lobby);
+        });
     }
 
 

@@ -17,7 +17,9 @@ public class HostGameManager
     private const string GAME_SCENE = "Game";
 
     private Allocation allocation;
-    private string joinCode;
+    public string joinCode;
+    public string JoinCode => joinCode;
+
     private string lobbyId;
 
     public async Task StartHostAsync()
@@ -25,6 +27,8 @@ public class HostGameManager
         try
         {
             allocation = await RelayService.Instance.CreateAllocationAsync(MAX_CONNECTIONS);
+
+           
 
         } catch (Exception e)
         {
@@ -65,9 +69,10 @@ public class HostGameManager
                 }
             };
 
-            Lobby lobby =  await LobbyService.Instance.CreateLobbyAsync("My Lobby", MAX_CONNECTIONS);
+            Lobby lobby =  await LobbyService.Instance.CreateLobbyAsync("My Lobby", MAX_CONNECTIONS, lobbyOptions);
 
             lobbyId = lobby.Id;
+
 
             HostSingleton.Instance.StartCoroutine(HeartbeatLobby(15f));
 

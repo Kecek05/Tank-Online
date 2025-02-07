@@ -15,6 +15,9 @@ public class ClientGameManager
 
     private JoinAllocation joinAllocation;
 
+    public string joinCode;
+    public string JoinCode => joinCode;
+
     public async Task<bool> InitAsync()
     {
         //Authenticate player
@@ -41,6 +44,7 @@ public class ClientGameManager
         try
         {
             joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
+
         }
         catch (Exception e)
         {
@@ -53,6 +57,10 @@ public class ClientGameManager
         RelayServerData relayServerData = AllocationUtils.ToRelayServerData(joinAllocation, "dtls");
 
         transport.SetRelayServerData(relayServerData);
+
+       
+        this.joinCode = joinCode;
+        Debug.Log("Code Relay:" + this.joinCode);
 
         NetworkManager.Singleton.StartClient();
 
