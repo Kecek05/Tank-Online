@@ -40,4 +40,9 @@ public class ClientSingleton : MonoBehaviour
     {
         return await GameManager.InitAsync();
     }
+
+    public async Task<bool> AuthClientAnonymously()
+    {
+        return await GameManager.InitAsyncAnonymously();
+    }
 }

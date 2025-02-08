@@ -8,25 +8,43 @@ using UnityEngine;
 
 public static class AuthenticationWrapper
 {
+    public static event Action OnSignInFail;
+    
     public static AuthState AuthState { get; private set; } = AuthState.NotAuthenticated;
 
     private static string playerName;
     public static string PlayerName => playerName;
 
-    public static async Task<AuthState> DoAuth(int maxTries = 5)
+    public static async Task<AuthState> DoAuth()
     {
         if (AuthState == AuthState.Authenticated) return AuthState;
 
-        if(AuthState == AuthState.Authenticating)
+        //if(AuthState == AuthState.Authenticating)
+        //{
+        //    Debug.LogWarning("Already authenticating.");
+        //    await Authenticating();
+        //    return AuthState;
+        //}
+
+        await InitSignIn();
+
+        return AuthState;
+    }
+
+    public static async Task<AuthState> DoAuthAnonymously(int maxTries = 5)
+    {
+        if (AuthState == AuthState.Authenticated) return AuthState;
+
+        if (AuthState == AuthState.Authenticating)
         {
             Debug.LogWarning("Already authenticating.");
             await Authenticating();
             return AuthState;
         }
 
-        //await SignInAnonymouslyAsync(maxTries);
+        PlayerPrefs.DeleteKey("AccessToken");
 
-        await InitSignIn();
+        await SignInAnonymouslyAsync(maxTries);
 
         return AuthState;
     }
@@ -84,10 +102,20 @@ public static class AuthenticationWrapper
 
             PlayerAccountService.Instance.SignedIn += SignedIn;
 
+            PlayerAccountService.Instance.SignInFailed += SignInFailed;
+
             await PlayerAccountService.Instance.StartSignInAsync();
 
         }
 
+    }
+
+    private static void SignInFailed(RequestFailedException obj)
+    {
+        AuthState = AuthState.Error;
+        OnSignInFail?.Invoke();
+
+        Debug.LogWarning("SignIn failed.");
     }
 
     private static async void SignedIn()
@@ -136,6 +164,7 @@ public static class AuthenticationWrapper
         }
     }
 
+
     public static async Task RenamePlayerName(string newName)
     {
         try
@@ -170,6 +199,13 @@ public static class AuthenticationWrapper
                 if (AuthenticationService.Instance.IsSignedIn && AuthenticationService.Instance.IsAuthorized)
                 {
                     AuthState = AuthState.Authenticated;
+
+                    playerName = await AuthenticationService.Instance.GetPlayerNameAsync();
+
+                    Debug.Log(playerName);
+
+                    ClientSingleton.Instance.GameManager.GoToMenu();
+
                     break;
                 }
 

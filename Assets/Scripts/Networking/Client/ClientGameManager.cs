@@ -40,6 +40,25 @@ public class ClientGameManager
        
     }
 
+    public async Task<bool> InitAsyncAnonymously()
+    {
+        //Authenticate player
+        await UnityServices.InitializeAsync();
+
+        networkClient = new NetworkClient(NetworkManager.Singleton);
+
+        AuthState authState = await AuthenticationWrapper.DoAuthAnonymously();
+
+        if (authState == AuthState.Authenticated)
+        {
+            return true;
+        }
+
+        return false;
+
+    }
+
+
     public void GoToMenu()
     {
         SceneManager.LoadScene(MENU_SCENE);
