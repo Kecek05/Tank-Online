@@ -15,6 +15,8 @@ public class NetworkServer
         this.networkManager = networkManager;
 
         networkManager.ConnectionApprovalCallback += ApprovalCheck;
+
+        networkManager.OnServerStarted += NetworkManager_OnServerStarted;
     }
 
     private void ApprovalCheck(NetworkManager.ConnectionApprovalRequest request, NetworkManager.ConnectionApprovalResponse response)
@@ -24,12 +26,26 @@ public class NetworkServer
         UserData userData = JsonUtility.FromJson<UserData>(payload); //Deserialize the payload to UserData
 
         clientIdToAuth[request.ClientNetworkId] = userData.userAuthId; //if dont exist, add to dictionary
-        authIdToUserData[userData.userAuthId] = userData; //if dont exist, add to dictionary
+        authIdToUserData[userData.userAuthId] = userData; 
 
         response.Approved = true; // connection is approved
 
         response.CreatePlayerObject = true; // create a player object
 
         //after, check if there is anyone with this username, if have, dont aprove the connection (idk if nessesary)
+    }
+
+    private void NetworkManager_OnServerStarted()
+    {
+        networkManager.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+    }
+
+    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
+    {
+        if(clientIdToAuth.TryGetValue(clientId, out string authId)) //Handle disconnections
+        {
+            clientIdToAuth.Remove(clientId);
+            authIdToUserData.Remove(authId);
+        }
     }
 }

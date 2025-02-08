@@ -16,6 +16,8 @@ public class ClientGameManager
     private const string AUTH_SCENE = "AuthBootstrap";
 
     private JoinAllocation joinAllocation;
+    private NetworkClient networkClient;
+
 
     public string joinCode;
     public string JoinCode => joinCode;
@@ -24,6 +26,8 @@ public class ClientGameManager
     {
         //Authenticate player
         await UnityServices.InitializeAsync();
+
+        networkClient = new NetworkClient(NetworkManager.Singleton);
 
         AuthState authState = await AuthenticationWrapper.DoAuth();
 
