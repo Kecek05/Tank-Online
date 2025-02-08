@@ -25,13 +25,14 @@ public class RenameUI : MonoBehaviour
                 return;
             }
 
-            newNameInputField.text.Replace(" ", "_"); // cant have spaces
+            string fixednewNameInputField = newNameInputField.text.Replace(" ", "_"); // cant have spaces
 
-            await AuthenticationWrapper.RenamePlayerName(newNameInputField.text);
+            await AuthenticationWrapper.RenamePlayerName(fixednewNameInputField);
 
-            OnNameChanged?.Invoke(newNameInputField.text);
+            OnNameChanged?.Invoke(fixednewNameInputField);
 
             Hide();
+            newNameInputField.text = "";
         });
 
         cancelBtn.onClick.AddListener(() =>
