@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Collections;
 using Unity.Services.Authentication;
 
-public class HostGameManager
+public class HostGameManager : IDisposable
 {
     private const int MAX_CONNECTIONS = 20;
     private const string GAME_SCENE = "Game";
@@ -113,5 +113,26 @@ public class HostGameManager
 
             yield return delay;
         }
+    }
+
+    public async void Dispose()
+    {
+        HostSingleton.Instance.StopCoroutine(nameof(HeartbeatLobby));
+
+        if(!string.IsNullOrEmpty(lobbyId))
+        {
+
+            try
+            {
+                await LobbyService.Instance.DeleteLobbyAsync(lobbyId);
+            } catch (LobbyServiceException e)
+            {
+                Debug.Log(e);
+            }
+            
+            lobbyId = string.Empty;
+        }
+
+        networkServer?.Dispose();
     }
 }

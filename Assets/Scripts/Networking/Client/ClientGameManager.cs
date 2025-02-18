@@ -10,7 +10,7 @@ using Unity.Services.Relay.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ClientGameManager
+public class ClientGameManager : IDisposable
 {
     private const string MENU_SCENE = "Menu";
     private const string AUTH_SCENE = "AuthBootstrap";
@@ -105,5 +105,10 @@ public class ClientGameManager
         NetworkManager.Singleton.StartClient();
 
         Debug.Log("Started Client!");
+    }
+
+    public void Dispose()
+    {
+        networkClient?.Dispose();
     }
 }

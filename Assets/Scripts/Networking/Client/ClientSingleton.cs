@@ -45,4 +45,9 @@ public class ClientSingleton : MonoBehaviour
     {
         return await GameManager.InitAsyncAnonymously();
     }
+
+    private void OnDestroy()
+    {
+        GameManager?.Dispose();
+    }
 }
