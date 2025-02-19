@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Cinemachine;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -13,8 +14,15 @@ public class TankPlayer : NetworkBehaviour
     [Header("Settings")]
     private int ownerPriority = 10;
 
+    public NetworkVariable<FixedString32Bytes> playerName { get; private set; } = new NetworkVariable<FixedString32Bytes>(new FixedString32Bytes()); // similar to string
     public override void OnNetworkSpawn()
     {
+        if(IsServer)
+        {
+            UserData userdata = HostSingleton.Instance.GameManager.NetworkServer.GetUserDataByClientId(OwnerClientId);
+            playerName.Value = userdata.userName;
+        }
+
         if (IsOwner)
         {
             playerCam.Priority.Value = ownerPriority;

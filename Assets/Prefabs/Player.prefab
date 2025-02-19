@@ -209,6 +209,7 @@ GameObject:
   - component: {fileID: 8180369329377268228}
   - component: {fileID: 249294569623185097}
   - component: {fileID: 480915491814919537}
+  - component: {fileID: 4100725060788707869}
   m_Layer: 0
   m_Name: OverheadCanvas
   m_TagString: Untagged
@@ -291,6 +292,20 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   projectileLauncher: {fileID: 6799874828294725812}
   firingBarImage: {fileID: 6511010737621362669}
+--- !u!114 &4100725060788707869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614497230592673996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7282b93722b67e3438477bbbc4393815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tankPlayer: {fileID: 8903717643099212242}
+  playerNameText: {fileID: 4019594822709223326}
 --- !u!1 &1671923229386351235
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,7 +799,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PlayerName00
+  m_text: PlayerName000
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -811,12 +826,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.2
+  m_fontSize: 0.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 0
-  m_fontSizeMax: 0.4
+  m_fontSizeMin: 0.4
+  m_fontSizeMax: 1
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512

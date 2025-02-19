@@ -7,8 +7,8 @@ public class NetworkServer : IDisposable
 {
     private NetworkManager networkManager;
 
-    private Dictionary<ulong, string> clientIdToAuth = new Dictionary<ulong, string>();
-    private Dictionary<string, UserData> authIdToUserData = new Dictionary<string, UserData>();
+    private Dictionary<ulong, string> clientIdToAuth = new Dictionary<ulong, string>(); // save client IDs to their authentication IDs
+    private Dictionary<string, UserData> authIdToUserData = new Dictionary<string, UserData>(); // save authentication IDs to user data
 
     public NetworkServer(NetworkManager networkManager) // our constructor
     {
@@ -38,6 +38,7 @@ public class NetworkServer : IDisposable
     private void NetworkManager_OnServerStarted()
     {
         networkManager.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+
     }
 
     private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
@@ -62,5 +63,19 @@ public class NetworkServer : IDisposable
        {
             networkManager.Shutdown();
        }
+    }
+
+    public UserData GetUserDataByClientId(ulong clientId)
+    {
+        if (clientIdToAuth.TryGetValue(clientId, out string authId))
+        {
+            //Get Auth by client ID
+            if (authIdToUserData.TryGetValue(authId, out UserData userData))
+            {
+                //Get UserData by Auth
+                return userData;
+            }
+        }
+        return null;
     }
 }

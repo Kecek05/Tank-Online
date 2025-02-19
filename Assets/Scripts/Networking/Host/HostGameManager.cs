@@ -19,6 +19,8 @@ public class HostGameManager : IDisposable
 
 
     private NetworkServer networkServer;
+    public NetworkServer NetworkServer => networkServer;
+
     private Allocation allocation;
     public string joinCode;
     public string JoinCode => joinCode;
