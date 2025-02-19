@@ -29,7 +29,8 @@ public class NetworkServer : IDisposable
         authIdToUserData[userData.userAuthId] = userData; 
 
         response.Approved = true; // connection is approved
-
+        response.Position = SpawnPoint.GetRandomSpawnPos(); // set the spawn position
+        response.Rotation = Quaternion.identity;
         response.CreatePlayerObject = true; // create a player object
 
         //after, check if there is anyone with this username, if have, dont aprove the connection (idk if nessesary)
