@@ -10,6 +10,8 @@ public class LeaderboardUI : NetworkBehaviour
     [SerializeField] private Transform leaderboardEntityHolder;
     [SerializeField] private GameObject leaderboardEntityPrefab;
 
+    [SerializeField] private const int ENTITIES_TO_DISPLAY = 10;
+
     private NetworkList<LeaderboardEntityState> leaderboardEntities;
 
     private List<LeaderboardEntity> entityDisplays = new List<LeaderboardEntity>();
@@ -49,10 +51,10 @@ public class LeaderboardUI : NetworkBehaviour
 
     private void LeaderboardEntities_OnListChanged(NetworkListEvent<LeaderboardEntityState> changeEvent)
     {
-        switch(changeEvent.Type)
+        switch (changeEvent.Type)
         {
             case NetworkListEvent<LeaderboardEntityState>.EventType.Add:
-                if(!entityDisplays.Any(x => x.ClientID == changeEvent.Value.ClientId)) // see if there isn't any item on the list that have the same clientID | same as foreach blablabla
+                if (!entityDisplays.Any(x => x.ClientID == changeEvent.Value.ClientId)) // see if there isn't any item on the list that have the same clientID | same as foreach blablabla
                 {
                     LeaderboardEntity leaderboardEntity = Instantiate(leaderboardEntityPrefab, leaderboardEntityHolder).GetComponent<LeaderboardEntity>();
 
@@ -63,11 +65,11 @@ public class LeaderboardUI : NetworkBehaviour
                 break;
             case NetworkListEvent<LeaderboardEntityState>.EventType.Remove:
                 LeaderboardEntity displayToRemove = entityDisplays.FirstOrDefault(x => x.ClientID == changeEvent.Value.ClientId); // get the first element that matches, if not found return null (default = null)
-                if(displayToRemove != null)
+                if (displayToRemove != null)
                 {
                     displayToRemove.transform.SetParent(null); // first remove from parent to prevent bugs
-                    Destroy(displayToRemove.gameObject); 
-                    entityDisplays.Remove(displayToRemove); 
+                    Destroy(displayToRemove.gameObject);
+                    entityDisplays.Remove(displayToRemove);
                 }
                 break;
             case NetworkListEvent<LeaderboardEntityState>.EventType.Value: // when the value of the entity changes
@@ -77,6 +79,29 @@ public class LeaderboardUI : NetworkBehaviour
                     displayToUpdate.UpdateCoins(changeEvent.Value.Coins);
                 }
                 break;
+        }
+
+        entityDisplays.Sort((x, y) => y.Coins.CompareTo(x.Coins)); // sort the list by coins, more coins, at the top of the list
+
+        for (int i = 0; i < entityDisplays.Count; i++)
+        {
+            entityDisplays[i].transform.SetSiblingIndex(i); // set the sibling index to the index of the list, the order based on the index
+            entityDisplays[i].UpdateText();
+
+            bool shouldShow = i <= ENTITIES_TO_DISPLAY - 1;
+
+            entityDisplays[i].gameObject.SetActive(shouldShow);
+        }
+
+        LeaderboardEntity myDisplay = entityDisplays.FirstOrDefault(x => x.ClientID == NetworkManager.Singleton.LocalClientId);
+
+        if (myDisplay != null)
+        {
+            if(myDisplay.transform.GetSiblingIndex() >= ENTITIES_TO_DISPLAY) // if greater than max, we are no in leaderboard. Hide them and show ourselfs
+            {
+                leaderboardEntityHolder.GetChild(ENTITIES_TO_DISPLAY - 1).gameObject.SetActive(false);
+                myDisplay.gameObject.SetActive(true);
+            }
         }
     }
 

@@ -150,3 +150,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNameTxt: {fileID: 4847663342897893110}
+  myColor: {r: 0.38412246, g: 0.9811321, b: 0.57865363, a: 1}
