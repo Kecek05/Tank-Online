@@ -10,9 +10,9 @@ public class PlayerNameDisplay : MonoBehaviour
 
     private void Start()
     {
-        OnPlayerNameChanged(string.Empty, tankPlayer.playerName.Value); //force check, in case the value is already set
+        OnPlayerNameChanged(string.Empty, tankPlayer.PlayerName.Value); //force check, in case the value is already set
 
-        tankPlayer.playerName.OnValueChanged += OnPlayerNameChanged;
+        tankPlayer.PlayerName.OnValueChanged += OnPlayerNameChanged;
 
     }
 
@@ -23,6 +23,6 @@ public class PlayerNameDisplay : MonoBehaviour
 
     private void OnDestroy()
     {
-        tankPlayer.playerName.OnValueChanged -= OnPlayerNameChanged;
+        tankPlayer.PlayerName.OnValueChanged -= OnPlayerNameChanged;
     }
 }

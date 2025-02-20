@@ -18,7 +18,7 @@ public class TankPlayer : NetworkBehaviour
     [Header("Settings")]
     private int ownerPriority = 10;
 
-    public NetworkVariable<FixedString32Bytes> playerName { get; private set; } = new NetworkVariable<FixedString32Bytes>(new FixedString32Bytes()); // similar to string
+    public NetworkVariable<FixedString32Bytes> PlayerName { get; private set; } = new NetworkVariable<FixedString32Bytes>(new FixedString32Bytes()); // similar to string
 
     public static event Action<TankPlayer> OnPlayerSpawned;
 
@@ -29,7 +29,7 @@ public class TankPlayer : NetworkBehaviour
         if(IsServer)
         {
             UserData userdata = HostSingleton.Instance.GameManager.NetworkServer.GetUserDataByClientId(OwnerClientId);
-            playerName.Value = userdata.userName;
+            PlayerName.Value = userdata.userName;
 
             OnPlayerSpawned?.Invoke(this);
         }

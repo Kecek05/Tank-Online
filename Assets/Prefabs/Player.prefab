@@ -545,8 +545,8 @@ MonoBehaviour:
   inputReader: {fileID: 11400000, guid: 0aaa0e505d79eb449a5ae92c52a43630, type: 2}
   bodyTransform: {fileID: 854070799292065631}
   rb: {fileID: 6455645207197057362}
-  moveSpeed: 6
-  turningSpeed: 130
+  moveSpeed: 9
+  turningSpeed: 200
 --- !u!114 &2881567829872402918
 MonoBehaviour:
   m_ObjectHideFlags: 0
