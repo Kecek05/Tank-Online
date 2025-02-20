@@ -48,7 +48,7 @@ public class Health : NetworkBehaviour, IDamageable, IHealable
 
         currentHealth.Value = Mathf.Clamp(newHealth, 0, maxHealth);
 
-        if (currentHealth.Value == 0)
+        if (currentHealth.Value <= 0)
         {
             isDead = true;
             OnDie?.Invoke(this);

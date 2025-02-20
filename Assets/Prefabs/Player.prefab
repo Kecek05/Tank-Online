@@ -528,6 +528,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   playerCam: {fileID: 4507802435309431745}
   confiner2D: {fileID: 780081523202618084}
+  health: {fileID: 1822853730113279632}
 --- !u!114 &164789543942569062
 MonoBehaviour:
   m_ObjectHideFlags: 0

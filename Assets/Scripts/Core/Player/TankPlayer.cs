@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Unity.Cinemachine;
 using Unity.Collections;
@@ -10,23 +11,41 @@ public class TankPlayer : NetworkBehaviour
     [Header("References ")]
     [SerializeField] private CinemachineCamera playerCam;
     [SerializeField] private CinemachineConfiner2D confiner2D;
+    [SerializeField] private Health health;
+    public Health Health => health;
+
 
     [Header("Settings")]
     private int ownerPriority = 10;
 
     public NetworkVariable<FixedString32Bytes> playerName { get; private set; } = new NetworkVariable<FixedString32Bytes>(new FixedString32Bytes()); // similar to string
+
+    public static event Action<TankPlayer> OnPlayerSpawned;
+
+    public static event Action<TankPlayer> OnPlayerDespawned;
+
     public override void OnNetworkSpawn()
     {
         if(IsServer)
         {
             UserData userdata = HostSingleton.Instance.GameManager.NetworkServer.GetUserDataByClientId(OwnerClientId);
             playerName.Value = userdata.userName;
+
+            OnPlayerSpawned?.Invoke(this);
         }
 
         if (IsOwner)
         {
             playerCam.Priority.Value = ownerPriority;
             StartCoroutine(DelayCamerabounds());
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if(IsServer)
+        {
+            OnPlayerDespawned?.Invoke(this);
         }
     }
 
