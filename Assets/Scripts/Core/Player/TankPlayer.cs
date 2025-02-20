@@ -13,6 +13,8 @@ public class TankPlayer : NetworkBehaviour
     [SerializeField] private CinemachineConfiner2D confiner2D;
     [SerializeField] private Health health;
     public Health Health => health;
+    [SerializeField] private CoinWallet coinWallet;
+    public CoinWallet CoinWallet => coinWallet;
 
 
     [Header("Settings")]

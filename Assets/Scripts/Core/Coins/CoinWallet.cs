@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class CoinWallet : NetworkBehaviour
 {
-    public NetworkVariable<int> totalCoins = new();
-
+    public NetworkVariable<int> totalCoins { get; private set; } = new();
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

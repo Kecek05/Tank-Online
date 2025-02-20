@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
@@ -100,6 +101,8 @@ public class LeaderboardUI : NetworkBehaviour
             PlayerName = player.PlayerName.Value,
             Coins = 0
         });
+        
+        player.CoinWallet.totalCoins.OnValueChanged += (oldCoins, newCoins) => HandleCoinsChanged(player.OwnerClientId, newCoins); //int previousValue, int newValue sintax of OnValueChanged
     }
 
     private void HandlePlayerDespawned(TankPlayer player)
@@ -113,6 +116,24 @@ public class LeaderboardUI : NetworkBehaviour
             leaderboardEntities.Remove(entity);
 
             break;
+        }
+
+        player.CoinWallet.totalCoins.OnValueChanged -= (oldCoins, newCoins) => HandleCoinsChanged(player.OwnerClientId, newCoins);
+    }
+
+    private void HandleCoinsChanged(ulong clientId, int newCoins)
+    {
+        for(int i = 0; i < leaderboardEntities.Count; i++)
+        {
+            if (leaderboardEntities[i].ClientId != clientId) continue;
+
+            leaderboardEntities[i] = new LeaderboardEntityState
+            {
+                ClientId = clientId,
+                PlayerName = leaderboardEntities[i].PlayerName,
+                Coins = newCoins
+            };
+            return;
         }
     }
 }

@@ -529,6 +529,7 @@ MonoBehaviour:
   playerCam: {fileID: 4507802435309431745}
   confiner2D: {fileID: 780081523202618084}
   health: {fileID: 1822853730113279632}
+  coinWallet: {fileID: 1772867737504192367}
 --- !u!114 &164789543942569062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,7 +585,7 @@ MonoBehaviour:
   coinWallet: {fileID: 1772867737504192367}
   projectileSpeed: 30
   cooldownToFire: 0.6
-  costToFire: 3
+  costToFire: 5
   muzzleFlashDuration: 0.075
 --- !u!114 &1822853730113279632
 MonoBehaviour:
@@ -615,8 +616,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  totalCoins:
-    m_InternalValue: 0
 --- !u!1 &2177206364731641079
 GameObject:
   m_ObjectHideFlags: 0
