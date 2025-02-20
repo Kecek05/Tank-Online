@@ -1,3 +1,6 @@
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,6 +10,8 @@ public class LeaderboardUI : NetworkBehaviour
     [SerializeField] private GameObject leaderboardEntityPrefab;
 
     private NetworkList<LeaderboardEntityState> leaderboardEntities;
+
+    private List<LeaderboardEntity> entityDisplays = new List<LeaderboardEntity>();
 
     private void Awake()
     {
@@ -46,10 +51,30 @@ public class LeaderboardUI : NetworkBehaviour
         switch(changeEvent.Type)
         {
             case NetworkListEvent<LeaderboardEntityState>.EventType.Add:
-                Instantiate(leaderboardEntityPrefab, leaderboardEntityHolder);
+                if(!entityDisplays.Any(x => x.ClientID == changeEvent.Value.ClientId)) // see if there isn't any item on the list that have the same clientID | same as foreach blablabla
+                {
+                    LeaderboardEntity leaderboardEntity = Instantiate(leaderboardEntityPrefab, leaderboardEntityHolder).GetComponent<LeaderboardEntity>();
+
+                    leaderboardEntity.Setup(changeEvent.Value.ClientId, changeEvent.Value.PlayerName, changeEvent.Value.Coins);
+
+                    entityDisplays.Add(leaderboardEntity);
+                }
                 break;
             case NetworkListEvent<LeaderboardEntityState>.EventType.Remove:
-
+                LeaderboardEntity displayToRemove = entityDisplays.FirstOrDefault(x => x.ClientID == changeEvent.Value.ClientId); // get the first element that matches, if not found return null (default = null)
+                if(displayToRemove != null)
+                {
+                    displayToRemove.transform.SetParent(null); // first remove from parent to prevent bugs
+                    Destroy(displayToRemove.gameObject); 
+                    entityDisplays.Remove(displayToRemove); 
+                }
+                break;
+            case NetworkListEvent<LeaderboardEntityState>.EventType.Value: // when the value of the entity changes
+                LeaderboardEntity displayToUpdate = entityDisplays.FirstOrDefault(x => x.ClientID == changeEvent.Value.ClientId); // get the first element that matches, if not found return null (default = null)
+                if (displayToUpdate != null)
+                {
+                    displayToUpdate.UpdateCoins(changeEvent.Value.Coins);
+                }
                 break;
         }
     }
