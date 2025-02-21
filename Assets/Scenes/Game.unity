@@ -7335,7 +7335,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  playePrefab: {fileID: 1784081693703410868, guid: e41276710e56fe24f835b159b821b1b9, type: 3}
+  playePrefab: {fileID: 8903717643099212242, guid: e41276710e56fe24f835b159b821b1b9, type: 3}
+  coinKeepPercentage: 50
 --- !u!4 &896920588
 Transform:
   m_ObjectHideFlags: 0

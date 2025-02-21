@@ -13,11 +13,14 @@ public class CoinWallet : NetworkBehaviour
 
         int collectedCoin = coin.Collect();
         
-        if(!IsServer) return;
+        AddCoins(collectedCoin);
 
-        totalCoins.Value += collectedCoin;
+    }
 
-
+    public void AddCoins(int amount)
+    {
+        if (!IsServer) return;
+        totalCoins.Value += amount;
     }
 
     public void SpendCoins(int amount)
@@ -30,5 +33,10 @@ public class CoinWallet : NetworkBehaviour
     public bool CanSpendCoins(int valueToSpend)
     {
         return totalCoins.Value >= valueToSpend;
+    }
+
+    public int GetCoins()
+    {
+        return totalCoins.Value;
     }
 }

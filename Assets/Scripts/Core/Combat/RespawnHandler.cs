@@ -6,8 +6,8 @@ using UnityEngine;
 public class RespawnHandler : NetworkBehaviour
 {
 
-    [SerializeField] private NetworkObject playePrefab;
-
+    [SerializeField] private TankPlayer playePrefab;
+    [Tooltip("Percent to keep | 30 = keep only 30% that have")][SerializeField] private float coinKeepPercentage;
 
     public override void OnNetworkSpawn()
     {
@@ -36,18 +36,23 @@ public class RespawnHandler : NetworkBehaviour
 
     private void HandlePlayerDie(TankPlayer player)
     {
+        int coinsToKeep = Mathf.RoundToInt(player.CoinWallet.GetCoins() * (coinKeepPercentage / 100));
+
         Destroy(player.gameObject);
 
-        StartCoroutine(DelayRespawnPlayer(player.OwnerClientId));
+        StartCoroutine(DelayRespawnPlayer(player.OwnerClientId, coinsToKeep));
     }
 
-    private IEnumerator DelayRespawnPlayer(ulong OwnerClientId)
+    private IEnumerator DelayRespawnPlayer(ulong OwnerClientId, int coinsToKeep)
     {
         yield return null;
 
-        NetworkObject playerInstance = Instantiate(playePrefab, SpawnPoint.GetRandomSpawnPos(), Quaternion.identity);
+        TankPlayer playerInstance = Instantiate(playePrefab, SpawnPoint.GetRandomSpawnPos(), Quaternion.identity);
+        playerInstance.NetworkObject.SpawnAsPlayerObject(OwnerClientId); 
 
-        playerInstance.SpawnAsPlayerObject(OwnerClientId);
+
+        playerInstance.CoinWallet.AddCoins(coinsToKeep); // must be after spawn as network player object
+
     }
 
     public override void OnNetworkDespawn()
