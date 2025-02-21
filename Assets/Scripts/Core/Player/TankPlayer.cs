@@ -1,3 +1,4 @@
+using Sortify;
 using System;
 using System.Collections;
 using Unity.Cinemachine;
@@ -8,7 +9,7 @@ using UnityEngine;
 public class TankPlayer : NetworkBehaviour
 {
 
-    [Header("References ")]
+    [BetterHeader("References ")]
     [SerializeField] private CinemachineCamera playerCam;
     [SerializeField] private CinemachineConfiner2D confiner2D;
     [SerializeField] private Health health;
@@ -17,7 +18,7 @@ public class TankPlayer : NetworkBehaviour
     public CoinWallet CoinWallet => coinWallet;
 
 
-    [Header("Settings")]
+    [BetterHeader("Settings")]
     private int ownerPriority = 10;
 
     public NetworkVariable<FixedString32Bytes> PlayerName { get; private set; } = new NetworkVariable<FixedString32Bytes>(new FixedString32Bytes()); // similar to string

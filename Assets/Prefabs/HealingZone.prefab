@@ -343,8 +343,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   healPowerBar: {fileID: 5748585886706682181}
-  maxHealPower: 30
-  healCooldown: 60
+  maxHealPower: 5
+  healCooldown: 30
   healTickRate: 1
   coinsPerTick: 20
   healthPerTick: 20

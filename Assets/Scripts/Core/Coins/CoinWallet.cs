@@ -2,14 +2,15 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 using QFSW.QC;
+using Sortify;
 public class CoinWallet : NetworkBehaviour
 {
-    [Header("References")]
+    [BetterHeader("References")]
     [SerializeField] private Health health;
 
     [SerializeField] private BountyCoin bountyCoinPrefab;
 
-    [Header("Settings")]
+    [BetterHeader("Settings")]
     [SerializeField] private float coinSpread = 3f; //spread radius of coins
     [Tooltip("Percent to lost | 30 = lost only 30% that have")] [SerializeField] private float bountyPercentage; //percent to drop
     [SerializeField] private int bountyCoinCount; // ammount of coins to drop
