@@ -56,6 +56,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RespawningCoin
       objectReference: {fileID: 0}
+    - target: {fileID: 7408385447799656688, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
+      propertyPath: SyncRotAngleX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7408385447799656688, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
+      propertyPath: SyncRotAngleY
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -63,6 +71,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7172559159231186900, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5982944017018423275}
+    - targetCorrespondingSourceObject: {fileID: 3312276750232050564, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2087415402480574834}
   m_SourcePrefab: {fileID: 100100000, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
 --- !u!1 &4078509564181411285 stripped
 GameObject:
@@ -83,8 +94,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   coinGFX: {fileID: 8567069685013424517}
+--- !u!95 &8031830449893400456 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 3775425400560954761, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
+  m_PrefabInstance: {fileID: 6562811575447843329}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8567069685013424517 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3312276750232050564, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
   m_PrefabInstance: {fileID: 6562811575447843329}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2087415402480574834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8567069685013424517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbcd949bacfa5ba4b9bc1e5b9f537403, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8031830449893400456}
+  coinSpawner: {fileID: 5982944017018423275}

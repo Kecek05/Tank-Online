@@ -19,4 +19,5 @@ public abstract class Coin : NetworkBehaviour
     {
         coinGFX.SetActive(show);
     }
+
 }

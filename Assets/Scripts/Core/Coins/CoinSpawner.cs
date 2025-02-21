@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CoinSpawner : NetworkBehaviour
 {
+
     [SerializeField] private RespawningCoin coinPrefab;
 
     [SerializeField] private int maxCoins = 50;

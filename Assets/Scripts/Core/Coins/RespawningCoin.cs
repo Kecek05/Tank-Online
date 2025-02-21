@@ -4,6 +4,7 @@ using UnityEngine;
 public class RespawningCoin : Coin
 {
     public event Action<RespawningCoin> OnCollected;
+    public event Action OnRespawned;
 
     private Vector3 previousPosition;
 
@@ -41,5 +42,6 @@ public class RespawningCoin : Coin
     public void Reset()
     {
         alreadyCollected = false;
+        OnRespawned?.Invoke();
     }
 }
