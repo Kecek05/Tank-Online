@@ -1,6 +1,7 @@
 using System;
 using Unity.Netcode;
 using UnityEngine;
+using QFSW.QC;
 
 public class Health : NetworkBehaviour, IDamageable, IHealable
 {
@@ -19,6 +20,8 @@ public class Health : NetworkBehaviour, IDamageable, IHealable
         currentHealth.Value = maxHealth;
     }
 
+
+    [Command("health-takeDamage")]
     public void TakeDamage(float damage)
     {
         if(isDead) return;
@@ -32,6 +35,7 @@ public class Health : NetworkBehaviour, IDamageable, IHealable
         Debug.Log("Dead!");
     }
 
+    [Command("health-heal")]
     public void Heal(float amount)
     {
         if (isDead) return;
@@ -39,6 +43,7 @@ public class Health : NetworkBehaviour, IDamageable, IHealable
         ModifyHealth(Mathf.RoundToInt(amount));
 
     }
+
 
     private void ModifyHealth(int value)
     {

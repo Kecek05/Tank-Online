@@ -36,7 +36,7 @@ public class RespawnHandler : NetworkBehaviour
 
     private void HandlePlayerDie(TankPlayer player)
     {
-        int coinsToKeep = Mathf.RoundToInt(player.CoinWallet.GetCoins() * (coinKeepPercentage / 100));
+        int coinsToKeep = Mathf.RoundToInt(player.CoinWallet.GetCoins() * (coinKeepPercentage / 100f));
 
         Destroy(player.gameObject);
 

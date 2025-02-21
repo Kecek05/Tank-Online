@@ -1,3 +1,4 @@
+using QFSW.QC;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -28,6 +29,7 @@ public class CoinSpawner : NetworkBehaviour
         }
     }
 
+    [Command("coinSpawner-spawnCoin")]
     private void SpawnCoin()
     {
         RespawningCoin coinInstance = Instantiate(coinPrefab, GetSpawnPoint(), Quaternion.identity);
