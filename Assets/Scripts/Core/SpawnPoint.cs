@@ -16,7 +16,7 @@ public class SpawnPoint : MonoBehaviour
     {
         if(spawnPoints.Count == 0)
         {
-            Debug.LogError("No spawn points found");
+            Debug.LogWarning("No spawn points found");
             return Vector3.zero;
         }
 

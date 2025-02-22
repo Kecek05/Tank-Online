@@ -1,3 +1,4 @@
+using Sortify;
 using System.Collections.Generic;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
@@ -6,6 +7,8 @@ using UnityEngine.UI;
 
 public class LobbiesList : MonoBehaviour
 {
+    [BetterHeader("References")]
+    [SerializeField] private MainMenuUI mainMenuUI;
     [SerializeField] private LobbyItem lobbyItemPrefab;
     [SerializeField] private Transform lobbyItemParent;
     [SerializeField] private Button refreshBtn;
@@ -70,6 +73,7 @@ public class LobbiesList : MonoBehaviour
         if (isJoining) return;
 
         isJoining = true;
+        mainMenuUI.ShowBackgroundJoining();
         // Join the lobby
         try
         {
@@ -85,5 +89,6 @@ public class LobbiesList : MonoBehaviour
         }
 
         isJoining = false;
+        mainMenuUI.HideBackgroundJoining();
     }
 }
