@@ -102,6 +102,8 @@ public class HostGameManager : IDisposable
 
         NetworkManager.Singleton.StartHost();
 
+        NetworkServer.OnClientLeft += HandleClientLeft;
+
         NetworkManager.Singleton.SceneManager.LoadScene(GAME_SCENE, UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 
@@ -117,24 +119,43 @@ public class HostGameManager : IDisposable
         }
     }
 
-    public async void Dispose()
+    public void Dispose() // Similar to OnDestroy but dont need to be attached to a GameObject
+    {
+        Shutdown();
+    }
+
+    public async void Shutdown()
     {
         HostSingleton.Instance.StopCoroutine(nameof(HeartbeatLobby));
 
-        if(!string.IsNullOrEmpty(lobbyId))
+        if (!string.IsNullOrEmpty(lobbyId))
         {
 
             try
             {
                 await LobbyService.Instance.DeleteLobbyAsync(lobbyId);
-            } catch (LobbyServiceException e)
+            }
+            catch (LobbyServiceException e)
             {
                 Debug.Log(e);
             }
-            
+
             lobbyId = string.Empty;
         }
+        NetworkServer.OnClientLeft -= HandleClientLeft;
 
         networkServer?.Dispose();
+    }
+
+    private async void HandleClientLeft(string authId)
+    {
+        try
+        {
+            await LobbyService.Instance.RemovePlayerAsync(lobbyId, authId); //Owner of the lobby is allowed to kick players
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.Log(e);
+        }
     }
 }

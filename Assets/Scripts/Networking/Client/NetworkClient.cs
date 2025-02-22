@@ -28,16 +28,24 @@ public class NetworkClient : IDisposable
         // clientId != networkManager.LocalClientId : safety check
         if (clientId != 0 && clientId != networkManager.LocalClientId) return;
 
+        Disconnect();
+    }
+
+
+    public void Disconnect()
+    {
         //SceneManager.GetActiveScene().name != MENU_SCENE : could disconnect by timeout, need to check
+
         if (SceneManager.GetActiveScene().name != MENU_SCENE)
         {
             SceneManager.LoadScene(MENU_SCENE);
         }
 
-        if(networkManager.IsConnectedClient)
+        if (networkManager.IsConnectedClient)
         {
             networkManager.Shutdown();
         }
+
     }
 
     public void Dispose()
@@ -47,4 +55,6 @@ public class NetworkClient : IDisposable
         if (networkManager != null)
             networkManager.OnClientDisconnectCallback -= NetworkManager_OnClientDisconnectCallback;
     }
+
+   
 }

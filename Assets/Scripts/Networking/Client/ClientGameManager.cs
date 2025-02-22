@@ -107,8 +107,15 @@ public class ClientGameManager : IDisposable
         Debug.Log("Started Client!");
     }
 
-    public void Dispose()
+    public void Disconnect()
+    {
+        networkClient.Disconnect();
+    }
+
+    public void Dispose() // Similar to OnDestroy but dont need to be attached to a GameObject
     {
         networkClient?.Dispose();
     }
+
+    
 }

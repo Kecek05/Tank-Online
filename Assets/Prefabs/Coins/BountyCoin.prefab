@@ -52,10 +52,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5589539518735221868, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5813921251058991865, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 7bfd0a0977e81b84a8f1d12195e5883a, type: 3}
+    - target: {fileID: 5813921251058991865, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
+      propertyPath: m_Color.b
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5813921251058991865, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
+      propertyPath: m_Color.g
+      value: 0.86427355
+      objectReference: {fileID: 0}
+    - target: {fileID: 5813921251058991865, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771322676642008609, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
+      propertyPath: m_Color.g
+      value: 0.37442183
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771322676642008609, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 6771322676642008609, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
+      propertyPath: m_SortingOrder
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 7172559159231186900, guid: d4f2bf48113efa3419af1097246f97e5, type: 3}
       propertyPath: m_Name
       value: BountyCoin
