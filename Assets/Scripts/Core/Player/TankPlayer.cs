@@ -17,9 +17,12 @@ public class TankPlayer : NetworkBehaviour
     [SerializeField] private CoinWallet coinWallet;
     public CoinWallet CoinWallet => coinWallet;
 
+    [SerializeField] private SpriteRenderer minimapIconspriteRenderer;
 
     [BetterHeader("Settings")]
     private int ownerPriority = 10;
+
+    [SerializeField] private Color ownerMinimapColor;
 
     public NetworkVariable<FixedString32Bytes> PlayerName { get; private set; } = new NetworkVariable<FixedString32Bytes>(new FixedString32Bytes()); // similar to string
 
@@ -41,6 +44,8 @@ public class TankPlayer : NetworkBehaviour
         {
             playerCam.Priority.Value = ownerPriority;
             StartCoroutine(DelayCamerabounds());
+
+            minimapIconspriteRenderer.color = ownerMinimapColor;
         }
     }
 
