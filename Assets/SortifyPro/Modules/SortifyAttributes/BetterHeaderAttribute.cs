@@ -1,4 +1,3 @@
-#if SORTIFY_ATTRIBUTES
 using UnityEngine;
 
 namespace Sortify
@@ -23,4 +22,3 @@ namespace Sortify
         }
     }
 }
-#endif
