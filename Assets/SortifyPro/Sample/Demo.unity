@@ -1195,12 +1195,12 @@ MonoBehaviour:
   SlowToggle: 0
   NormalToggle: 1
   FastToggle: 1
-  HorizontalGroup: 3
+  HorizontalGroup: 4
   option2Description: This is shown when Option2 is selected.
   option3Description: This is shown when Option3 is deselected.
   VerticalGroup: 4
   showHealthBar: 1
-  healthBar: 91.18
+  healthBar: 91.33
   Button: 0
   InfoMessage: Info Message
   WarningMessage: Warning Message
@@ -1208,7 +1208,7 @@ MonoBehaviour:
   MinMaxSlider: {x: 0.13, y: 1}
   RangeStep: 0
   ReadOnly: 5
-  HealthBar: 50.764008
+  HealthBar: 19.088144
   ManaBar: 64.176575
   BetterHeader_Default: 33.5
   BetterHeader_MiddleCenter: 3.2
