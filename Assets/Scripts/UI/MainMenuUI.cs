@@ -19,8 +19,11 @@ public class MainMenuUI : MonoBehaviour
 
     [BetterHeader("MatchMaking References")]
     [SerializeField] private Button findMatchBtn;
+    [SerializeField] private TextMeshProUGUI findMatchBtnText;
     [SerializeField] private TextMeshProUGUI timeInQueueTxt;
     [SerializeField] private TextMeshProUGUI queueStatusTxt;
+    private bool isMatchmaking;
+    private bool isCancelling;
 
     private async void Awake()
     {
@@ -56,6 +59,33 @@ public class MainMenuUI : MonoBehaviour
         closeLobbyBackgroundBtn.onClick.AddListener(() =>
         {
             lobbyBackgroundUI.SetActive(false);
+        });
+
+        findMatchBtn.onClick.AddListener(async () =>
+        {
+            if(isCancelling) return;
+
+
+            if (isMatchmaking)
+            {
+                queueStatusTxt.text = "Cancelling matchmaking...";
+                isCancelling = true;
+                //Cancel matchmaking
+                isCancelling = false;
+                isMatchmaking = false;
+                findMatchBtnText.text = "FIND MATCH";
+                queueStatusTxt.text = string.Empty;
+                return;
+            }
+
+            //Start queue
+            findMatchBtnText.text = "CANCEL";
+            queueStatusTxt.text = "Searching for a match...";
+            isMatchmaking = true;
+
+
+
+
         });
     }
 

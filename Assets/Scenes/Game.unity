@@ -8285,7 +8285,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &818345795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8304,8 +8304,8 @@ MonoBehaviour:
   <PanelSettingsOverride>k__BackingField: {fileID: 0}
   <Position>k__BackingField:
     <OverridePosition>k__BackingField: 1
-    m_PositionLeftToRight: 1
-    m_PositionTopToBottom: 0
+    m_PositionLeftToRight: 0
+    m_PositionTopToBottom: 0.3
   <Configuration>k__BackingField: {fileID: 11400000, guid: 8f1b4e3792d8446399527749cfb591a2, type: 2}
 --- !u!4 &818345796
 Transform:

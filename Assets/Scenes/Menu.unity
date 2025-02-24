@@ -3820,7 +3820,7 @@ GameObject:
   - component: {fileID: 1343007007}
   - component: {fileID: 1343007006}
   m_Layer: 0
-  m_Name: ClientTxt
+  m_Name: FindMatchTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3998,6 +3998,7 @@ MonoBehaviour:
   lobbyBackgroundUI: {fileID: 116340333}
   closeLobbyBackgroundBtn: {fileID: 1888189251}
   findMatchBtn: {fileID: 124551970}
+  findMatchBtnText: {fileID: 1343007006}
   timeInQueueTxt: {fileID: 2013893734}
   queueStatusTxt: {fileID: 2059874959}
 --- !u!1 &1452034368
