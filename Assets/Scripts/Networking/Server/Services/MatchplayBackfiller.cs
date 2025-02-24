@@ -56,29 +56,31 @@ public class MatchplayBackfiller : IDisposable
         BackfillLoop();
     }
 
-    public void AddPlayerToMatch(UserData userData)
-    {
-        if (!IsBackfilling)
-        {
-            Debug.LogWarning("Can't add users to the backfill ticket before it's been created");
-            return;
-        }
 
-        if (GetPlayerById(userData.userAuthId) != null)
-        {
-            Debug.LogWarningFormat("User: {0} - {1} already in Match. Ignoring add.",
-                userData.userName,
-                userData.userAuthId);
-                
-            return;
-        }
+    //We already add the player through the matchmaker service, this would be used to add a player through a friends list to add them to the friend's team.
+    //public void AddPlayerToMatch(UserData userData)
+    //{
+    //    if (!IsBackfilling)
+    //    {
+    //        Debug.LogWarning("Can't add users to the backfill ticket before it's been created");
+    //        return;
+    //    }
 
-        Player matchmakerPlayer = new Player(userData.userAuthId, userData.userGamePreferences);
+    //    if (GetPlayerById(userData.userAuthId) != null)
+    //    {
+    //        Debug.LogWarningFormat("User: {0} - {1} already in Match. Ignoring add.",
+    //            userData.userName,
+    //            userData.userAuthId);
 
-        MatchProperties.Players.Add(matchmakerPlayer);
-        MatchProperties.Teams[0].PlayerIds.Add(matchmakerPlayer.Id);
-        localDataDirty = true;
-    }
+    //        return;
+    //    }
+
+    //    Player matchmakerPlayer = new Player(userData.userAuthId, userData.userGamePreferences);
+
+    //    MatchProperties.Players.Add(matchmakerPlayer);
+    //    MatchProperties.Teams[0].PlayerIds.Add(matchmakerPlayer.Id);
+    //    localDataDirty = true;
+    //}
 
     public int RemovePlayerFromMatch(string userId)
     {
@@ -89,8 +91,8 @@ public class MatchplayBackfiller : IDisposable
             return MatchPlayerCount;
         }
 
-        MatchProperties.Players.Remove(playerToRemove);
-        MatchProperties.Teams[0].PlayerIds.Remove(userId);
+        MatchProperties.Players.Remove(playerToRemove); //Matchmaker doesnt knows if the player leaves, we need to do it manually
+        GetTeamByUserId(userId).PlayerIds.Remove(userId);
         localDataDirty = true;
 
         return MatchPlayerCount;
@@ -105,6 +107,11 @@ public class MatchplayBackfiller : IDisposable
     {
         return MatchProperties.Players.FirstOrDefault(
             p => p.Id.Equals(userId));
+    }
+
+    public Team GetTeamByUserId(string userId)
+    {
+        return MatchProperties.Teams.FirstOrDefault(t => t.PlayerIds.Contains(userId)); //returns t where t.PlayerIds contains userId
     }
 
     public async Task StopBackfill()

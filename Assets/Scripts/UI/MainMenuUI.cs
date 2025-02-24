@@ -176,6 +176,9 @@ public class MainMenuUI : MonoBehaviour
         playerInfoUI.LockPlayerInfoUI();
         renameUI.Hide();
 
+        teamToggle.interactable = false;
+        privateToggle.interactable = false;
+
         lobbyCodeInputField.interactable = false;
         clientBtn.interactable = false;
         hostBtn.interactable = false;
@@ -186,6 +189,9 @@ public class MainMenuUI : MonoBehaviour
     private void UnlocksAllButtons()
     {
         playerInfoUI.UnlockPlayerInfoUI();
+
+        teamToggle.interactable = true;
+        privateToggle.interactable = true;
 
         lobbyCodeInputField.interactable = true;
         clientBtn.interactable = true;

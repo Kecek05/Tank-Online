@@ -49,8 +49,8 @@ public class ServerGameManager : IDisposable
             {
                 await StartBackfill(matchmakerPayload);
 
-                networkServer.OnUserJoined += NetworkServer_OnUserJoined;
-                networkServer.OnUserLeft += NetworkServer_OnUserLeft;
+                networkServer.OnUserJoined += UserJoined;
+                networkServer.OnUserLeft += UserLeft;
 
             } else
             {
@@ -69,16 +69,6 @@ public class ServerGameManager : IDisposable
 
     }
 
-    private void NetworkServer_OnUserLeft(UserData userData)
-    {
-        
-    }
-
-    private void NetworkServer_OnUserJoined(UserData userData)
-    {
-        
-    }
-
     private async Task StartBackfill(MatchmakingResults matchmakerPayload)
     {
         matchplayBackfiller = new MatchplayBackfiller($"{serverIP}:{serverPort}", matchmakerPayload.QueueName, matchmakerPayload.MatchProperties, 30);
@@ -93,8 +83,9 @@ public class ServerGameManager : IDisposable
 
     private void UserJoined(UserData userData)
     {
-        matchplayBackfiller.AddPlayerToMatch(userData);
-        
+        Team team = matchplayBackfiller.GetTeamByUserId(userData.userAuthId);
+        Debug.Log($"User: {userData.userName} - {userData.userAuthId} joined Team: {team.TeamId}");
+
         multiplayAllocationService.AddPlayer(); //Analytics
 
         if (!matchplayBackfiller.NeedsPlayers() && matchplayBackfiller.IsBackfilling) // Just got the max users, stop backfilling
@@ -148,8 +139,8 @@ public class ServerGameManager : IDisposable
 
     public void Dispose()
     {
-        networkServer.OnUserJoined -= NetworkServer_OnUserJoined;
-        networkServer.OnUserLeft -= NetworkServer_OnUserLeft;
+        networkServer.OnUserJoined -= UserJoined;
+        networkServer.OnUserLeft -= UserLeft;
 
         matchplayBackfiller?.Dispose();
         multiplayAllocationService?.Dispose();
