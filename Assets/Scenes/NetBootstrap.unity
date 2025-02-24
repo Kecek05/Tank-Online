@@ -257,7 +257,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 12
+  orthographic size: 18
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -282,7 +282,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 1619.6382, y: 114.76877, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -485,6 +485,7 @@ MonoBehaviour:
   clientPrefab: {fileID: 73743011237417947, guid: 4cb09b1e43dba574d99ede61202e66eb, type: 3}
   hostPrefab: {fileID: 290586438451107556, guid: 1dd8b99cc9d4dfd4eb15be884b9922c3, type: 3}
   serverPrefab: {fileID: 7409382238293376483, guid: d2d9556a96b003d4b974588bd57b6f47, type: 3}
+  playerPrefab: {fileID: 1784081693703410868, guid: e41276710e56fe24f835b159b821b1b9, type: 3}
 --- !u!4 &1505572003
 Transform:
   m_ObjectHideFlags: 0
@@ -670,7 +671,7 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 1621786715}
-    PlayerPrefab: {fileID: 1739096139445164567, guid: e41276710e56fe24f835b159b821b1b9, type: 3}
+    PlayerPrefab: {fileID: 0}
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: 04f6b9cc188bc5d46af9cba19acdc315, type: 2}

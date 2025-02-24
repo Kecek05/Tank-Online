@@ -16,8 +16,6 @@ using Unity.Services.Matchmaker.Models;
 public class ServerGameManager : IDisposable
 {
 
-    private const string GAME_SCENE = "Game";
-
     private string serverIP;
     private int serverPort; //serverPort = gameData 
     private int queryPort; // queryPort = analytics and more
@@ -29,12 +27,12 @@ public class ServerGameManager : IDisposable
 
     private MatchplayBackfiller matchplayBackfiller;
 
-    public ServerGameManager(string serverIP, int serverPort, int queryPort, NetworkManager manager) //Constructor, called when class is built 
+    public ServerGameManager(string serverIP, int serverPort, int queryPort, NetworkManager manager, NetworkObject playerPrefab) //Constructor, called when class is built 
     {
         this.serverIP = serverIP;
         this.serverPort = serverPort;
         this.queryPort = queryPort;
-        networkServer = new NetworkServer(manager); //create a new network server
+        networkServer = new NetworkServer(manager, playerPrefab); //create a new network server
         multiplayAllocationService = new MultiplayAllocationService(); 
     }
 
@@ -69,7 +67,6 @@ public class ServerGameManager : IDisposable
             Debug.LogWarning("NetworkServer did not start as expected.");
         }
 
-        NetworkManager.Singleton.SceneManager.LoadScene(GAME_SCENE, UnityEngine.SceneManagement.LoadSceneMode.Single);
     }
 
     private void NetworkServer_OnUserLeft(UserData userData)

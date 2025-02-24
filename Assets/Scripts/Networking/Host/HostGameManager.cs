@@ -14,9 +14,8 @@ using Unity.Services.Authentication;
 
 public class HostGameManager : IDisposable
 {
-    private const int MAX_CONNECTIONS = 20;
+    private const int MAX_CONNECTIONS = 30;
     private const string GAME_SCENE = "Game";
-
 
     private NetworkServer networkServer;
     public NetworkServer NetworkServer => networkServer;
@@ -26,6 +25,12 @@ public class HostGameManager : IDisposable
     public string JoinCode => joinCode;
 
     private string lobbyId;
+    private NetworkObject playerPrefab;
+
+    public HostGameManager(NetworkObject playerPrefab)
+    {
+        this.playerPrefab = playerPrefab;
+    }
 
     public async Task StartHostAsync()
     {
@@ -87,7 +92,7 @@ public class HostGameManager : IDisposable
             return;
         }
 
-        networkServer = new NetworkServer(NetworkManager.Singleton);
+        networkServer = new NetworkServer(NetworkManager.Singleton, playerPrefab);
 
         UserData userData = new UserData
         {

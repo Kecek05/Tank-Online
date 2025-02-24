@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
@@ -13,12 +14,15 @@ public class NetworkServer : IDisposable
     public event Action<UserData> OnUserJoined;
     public event Action<UserData> OnUserLeft;
 
+    private NetworkObject playerPrefab;
+
     private Dictionary<ulong, string> clientIdToAuth = new Dictionary<ulong, string>(); // save client IDs to their authentication IDs
     private Dictionary<string, UserData> authIdToUserData = new Dictionary<string, UserData>(); // save authentication IDs to user data
 
-    public NetworkServer(NetworkManager networkManager) // our constructor
+    public NetworkServer(NetworkManager networkManager, NetworkObject playerPrefab) // our constructor
     {
         this.networkManager = networkManager;
+        this.playerPrefab = playerPrefab;
 
         networkManager.ConnectionApprovalCallback += ApprovalCheck;
 
@@ -43,10 +47,10 @@ public class NetworkServer : IDisposable
 
         OnUserJoined?.Invoke(userData);
 
+        _ = SpawnPlayerDelay(request.ClientNetworkId);
+
         response.Approved = true; // connection is approved
-        response.Position = SpawnPoint.GetRandomSpawnPos(); // set the spawn position
-        response.Rotation = Quaternion.identity;
-        response.CreatePlayerObject = true; // create a player object
+        response.CreatePlayerObject = false; // create a player object
 
         //after, check if there is anyone with this username, if have, dont aprove the connection (idk if nessesary)
     }
@@ -55,6 +59,14 @@ public class NetworkServer : IDisposable
     {
         networkManager.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
 
+    }
+
+    private async Task SpawnPlayerDelay(ulong clientId)
+    {
+        await Task.Delay(1000); // delay to spawn the player
+        NetworkObject playerInstance = GameObject.Instantiate(playerPrefab, SpawnPoint.GetRandomSpawnPos(), Quaternion.identity); // spawn the player
+
+        playerInstance.SpawnAsPlayerObject(clientId);
     }
 
     private void NetworkManager_OnClientDisconnectCallback(ulong clientId)

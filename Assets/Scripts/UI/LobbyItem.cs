@@ -12,11 +12,6 @@ public class LobbyItem : MonoBehaviour
     private LobbiesList lobbiesList;
     private Lobby lobby;
 
-    private void Awake()
-    {
-
-    }
-
 
     public void Initialise(LobbiesList lobbiesList ,Lobby lobby)
     {
