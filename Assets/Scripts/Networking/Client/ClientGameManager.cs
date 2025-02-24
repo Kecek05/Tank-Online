@@ -118,10 +118,12 @@ public class ClientGameManager : IDisposable
         Debug.Log("Started Client!");
     }
 
-    public async void MatchmakeAsync(Action<MatchmakerPollingResult> onMatchmakeResponse) // not void because we are not waiting for the method to finish but still need to call await methods
+    public async void MatchmakeAsync(bool isTeamQueue,Action<MatchmakerPollingResult> onMatchmakeResponse) // not void because we are not waiting for the method to finish but still need to call await methods
     {
         //Action its for the callback
         if (matchmaker.IsMatchmaking) return;
+
+        userData.userGamePreferences.gameQueue = isTeamQueue ? GameQueue.Team : GameQueue.Solo;
 
         MatchmakerPollingResult matchResult = await GetMatchAsync();
         

@@ -15,6 +15,8 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private Button exitBtn;
     [SerializeField] private TMP_InputField lobbyCodeInputField;
     [SerializeField] private GameObject backgroundJoining;
+    [SerializeField] private Toggle teamToggle;
+    [SerializeField] private Toggle privateToggle;
 
     [Space(5)]
     [BetterHeader("Lobby UI")]
@@ -44,7 +46,7 @@ public class MainMenuUI : MonoBehaviour
         {
             hostBtn.interactable = false;
             ShowBackgroundJoining();
-            await HostSingleton.Instance.GameManager.StartHostAsync();
+            await HostSingleton.Instance.GameManager.StartHostAsync(privateToggle.isOn);
             hostBtn.interactable = true;
             HideBackgroundJoining();
         });
@@ -100,7 +102,7 @@ public class MainMenuUI : MonoBehaviour
                 return;
             }
 
-            ClientSingleton.Instance.GameManager.MatchmakeAsync(OnMatchMade);
+            ClientSingleton.Instance.GameManager.MatchmakeAsync(teamToggle.isOn,OnMatchMade);
             LocksAllButtons();
             findMatchBtnText.text = "CANCEL";
             queueStatusTxt.text = "Searching for a match...";
