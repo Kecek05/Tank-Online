@@ -43,7 +43,7 @@ public class ClientSingleton : MonoBehaviour
 
     public async Task<bool> AuthClientAnonymously()
     {
-        return await GameManager.InitAsyncAnonymously();
+        return await GameManager.InitAsync(true);
     }
 
     private void OnDestroy()

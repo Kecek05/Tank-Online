@@ -1,4 +1,5 @@
 using Sortify;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +26,11 @@ public class MainMenuUI : MonoBehaviour
     private bool isMatchmaking;
     private bool isCancelling;
 
+    [BetterHeader("PlayerInfo References")]
+    [SerializeField] private PlayerInfoUI playerInfoUI;
+    [SerializeField] private RenameUI renameUI;
+
+
     private async void Awake()
     {
         hostBtn.onClick.AddListener(async () =>
@@ -45,7 +51,7 @@ public class MainMenuUI : MonoBehaviour
         {
             clientBtn.interactable = false;
             ShowBackgroundJoining();
-            await ClientSingleton.Instance.GameManager.StartClientAsync(lobbyCodeInputField.text);
+            await ClientSingleton.Instance.GameManager.StartRelayClientAsync(lobbyCodeInputField.text);
             clientBtn.interactable = true;
             HideBackgroundJoining();
         });
@@ -68,17 +74,22 @@ public class MainMenuUI : MonoBehaviour
 
             if (isMatchmaking)
             {
+                //Cancel matchmaking
                 queueStatusTxt.text = "Cancelling matchmaking...";
                 isCancelling = true;
-                //Cancel matchmaking
+                await ClientSingleton.Instance.GameManager.CancelMatchmaking();
                 isCancelling = false;
                 isMatchmaking = false;
                 findMatchBtnText.text = "FIND MATCH";
                 queueStatusTxt.text = string.Empty;
+                timeInQueueTxt.text = string.Empty;
+                UnlocksAllButtons();
+                HideBackgroundJoining();
                 return;
             }
 
-            //Start queue
+            ClientSingleton.Instance.GameManager.MatchmakeAsync(OnMatchMade);
+            LocksAllButtons();
             findMatchBtnText.text = "CANCEL";
             queueStatusTxt.text = "Searching for a match...";
             isMatchmaking = true;
@@ -87,6 +98,30 @@ public class MainMenuUI : MonoBehaviour
 
 
         });
+    }
+
+    private void OnMatchMade(MatchmakerPollingResult result) // as soon as the match has been made, this method will be called
+    {
+        switch(result)
+        {
+            case MatchmakerPollingResult.Success:
+                queueStatusTxt.text = "Match found!";
+                ShowBackgroundJoining();
+                break;
+            case MatchmakerPollingResult.MatchAssignmentError:
+                queueStatusTxt.text = "Match assignment error!";
+                break;
+            case MatchmakerPollingResult.TicketCancellationError:
+                queueStatusTxt.text = "Ticket cancellation error!";
+                break;
+            case MatchmakerPollingResult.TicketRetrievalError:
+                queueStatusTxt.text = "Ticket retrieval error!";
+                break;
+            case MatchmakerPollingResult.TicketCreationError:
+                queueStatusTxt.text = "Ticket creation error!";
+                break;
+
+        }
     }
 
     private void Start()
@@ -101,6 +136,28 @@ public class MainMenuUI : MonoBehaviour
         //Clear Matchmaking
         timeInQueueTxt.text = string.Empty;
         queueStatusTxt.text = string.Empty;
+    }
+
+    private void LocksAllButtons()
+    {
+        playerInfoUI.LockPlayerInfoUI();
+        renameUI.Hide();
+
+        lobbyCodeInputField.interactable = false;
+        clientBtn.interactable = false;
+        hostBtn.interactable = false;
+        lobbiesBtn.interactable = false;
+        lobbyBackgroundUI.SetActive(false);
+    }
+
+    private void UnlocksAllButtons()
+    {
+        playerInfoUI.UnlockPlayerInfoUI();
+
+        lobbyCodeInputField.interactable = true;
+        clientBtn.interactable = true;
+        hostBtn.interactable = true;
+        lobbiesBtn.interactable = true;
     }
 
     public void ShowBackgroundJoining()

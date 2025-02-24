@@ -29,27 +29,29 @@ public class RenameUI : MonoBehaviour
 
             await AuthenticationWrapper.RenamePlayerName(fixednewNameInputField);
 
+            ClientSingleton.Instance.GameManager.UpdateUserDataName();
+
             OnNameChanged?.Invoke(fixednewNameInputField);
 
             Hide();
-            newNameInputField.text = "";
         });
 
         cancelBtn.onClick.AddListener(() =>
         {
             Hide();
-            newNameInputField.text = "";
         });
 
     }
 
-    private void Hide()
+    public void Hide()
     {
         background.SetActive(false);
+        newNameInputField.text = "";
     }
 
     public void Show()
     {
         background.SetActive(true);
     }
+
 }

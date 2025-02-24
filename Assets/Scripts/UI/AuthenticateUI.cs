@@ -25,7 +25,6 @@ public class AuthenticateUI : MonoBehaviour
         {
             HideButtons();
             ShowTxt();
-            Debug.Log("Authenticating anonymously");
             await ClientSingleton.Instance.AuthClientAnonymously();
         });
     }

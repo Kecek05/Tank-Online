@@ -4001,6 +4001,8 @@ MonoBehaviour:
   findMatchBtnText: {fileID: 1343007006}
   timeInQueueTxt: {fileID: 2013893734}
   queueStatusTxt: {fileID: 2059874959}
+  playerInfoUI: {fileID: 1645979768}
+  renameUI: {fileID: 728441365}
 --- !u!1 &1452034368
 GameObject:
   m_ObjectHideFlags: 0

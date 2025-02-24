@@ -24,7 +24,7 @@ public class ClientGameManager : IDisposable
     public string joinCode;
     public string JoinCode => joinCode;
 
-    public async Task<bool> InitAsync()
+    public async Task<bool> InitAsync(bool isAnonymously = false)
     {
         //Authenticate player
         await UnityServices.InitializeAsync();
@@ -32,8 +32,7 @@ public class ClientGameManager : IDisposable
         networkClient = new NetworkClient(NetworkManager.Singleton);
         matchmaker = new MatchplayMatchmaker();
 
-
-        AuthState authState = await AuthenticationWrapper.DoAuth();
+        AuthState authState = isAnonymously ? await AuthenticationWrapper.DoAuthAnonymously() : await AuthenticationWrapper.DoAuth();
 
         if(authState == AuthState.Authenticated)
         {
@@ -50,22 +49,9 @@ public class ClientGameManager : IDisposable
        
     }
 
-    public async Task<bool> InitAsyncAnonymously()
+    public void UpdateUserDataName()
     {
-        //Authenticate player
-        await UnityServices.InitializeAsync();
-
-        networkClient = new NetworkClient(NetworkManager.Singleton);
-
-        AuthState authState = await AuthenticationWrapper.DoAuthAnonymously();
-
-        if (authState == AuthState.Authenticated)
-        {
-            return true;
-        }
-
-        return false;
-
+        userData.userName = AuthenticationWrapper.PlayerName;
     }
 
 
@@ -79,7 +65,7 @@ public class ClientGameManager : IDisposable
         SceneManager.LoadScene(AUTH_SCENE);
     }
 
-    public async Task StartClientAsync(string joinCode)
+    public async Task StartRelayClientAsync(string joinCode)
     {
         try
         {
@@ -102,6 +88,20 @@ public class ClientGameManager : IDisposable
         this.joinCode = joinCode;
         Debug.Log("Code Relay:" + this.joinCode);
 
+        ConnectClient();
+    }
+
+    private void StartServerClient(string ip, int port) //dedicated server
+    {
+        UnityTransport transport = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        transport.SetConnectionData(ip, (ushort)port);
+
+
+        ConnectClient();
+    }
+
+    private void ConnectClient()
+    {
         string payload = JsonUtility.ToJson(userData); //serialize the payload to json
         byte[] payloadBytes = System.Text.Encoding.UTF8.GetBytes(payload); //serialize the payload to bytes
 
@@ -112,6 +112,17 @@ public class ClientGameManager : IDisposable
         Debug.Log("Started Client!");
     }
 
+    public async void MatchmakeAsync(Action<MatchmakerPollingResult> onMatchmakeResponse) // not void because we are not waiting for the method to finish but still need to call await methods
+    {
+        //Action its for the callback
+        if (matchmaker.IsMatchmaking) return;
+
+        MatchmakerPollingResult matchResult = await GetMatchAsync();
+        
+        onMatchmakeResponse?.Invoke(matchResult); //send the error to the UI
+
+    }
+
     private async Task<MatchmakerPollingResult> GetMatchAsync()
     {
         MatchmakingResult matchmakingResult = await matchmaker.Matchmake(userData);
@@ -119,8 +130,14 @@ public class ClientGameManager : IDisposable
         if(matchmakingResult.result == MatchmakerPollingResult.Success)
         {
             //Connect to server
+            StartServerClient(matchmakingResult.ip, matchmakingResult.port);
         }
         return matchmakingResult.result;
+    }
+
+    public async Task CancelMatchmaking() // Task = can be awaited itself
+    {
+        await matchmaker.CancelMatchmaking();
     }
 
     public void Disconnect()
@@ -133,5 +150,5 @@ public class ClientGameManager : IDisposable
         networkClient?.Dispose();
     }
 
-    
+
 }
