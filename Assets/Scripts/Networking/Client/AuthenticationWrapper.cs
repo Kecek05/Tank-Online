@@ -19,12 +19,12 @@ public static class AuthenticationWrapper
     {
         if (AuthState == AuthState.Authenticated) return AuthState;
 
-        //if(AuthState == AuthState.Authenticating)
-        //{
-        //    Debug.LogWarning("Already authenticating.");
-        //    await Authenticating();
-        //    return AuthState;
-        //}
+        if (AuthState == AuthState.Authenticating)
+        {
+            Debug.LogWarning("Already authenticating.");
+            await Authenticating();
+            return AuthState;
+        }
 
         await InitSignIn();
 
@@ -149,7 +149,7 @@ public static class AuthenticationWrapper
 
             playerName = await AuthenticationService.Instance.GetPlayerNameAsync();
 
-            Debug.Log(playerName);
+            Debug.Log(playerName + AuthState);
 
             ClientSingleton.Instance.GameManager.GoToMenu();
 
@@ -194,6 +194,8 @@ public static class AuthenticationWrapper
         {
             try
             {
+
+
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
                 if (AuthenticationService.Instance.IsSignedIn && AuthenticationService.Instance.IsAuthorized)
@@ -202,7 +204,7 @@ public static class AuthenticationWrapper
 
                     playerName = await AuthenticationService.Instance.GetPlayerNameAsync();
 
-                    Debug.Log(playerName);
+                    Debug.Log(playerName + AuthState);
 
                     ClientSingleton.Instance.GameManager.GoToMenu();
 

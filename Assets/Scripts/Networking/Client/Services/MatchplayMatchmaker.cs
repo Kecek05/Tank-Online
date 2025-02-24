@@ -40,6 +40,8 @@ public class MatchplayMatchmaker : IDisposable
         CreateTicketOptions createTicketOptions = new CreateTicketOptions(queueName);
         Debug.Log(createTicketOptions.QueueName);
 
+        Debug.Log("AuthId: " + data.userAuthId);
+
         List<Player> players = new List<Player>
         {
             new Player(data.userAuthId, data.userGamePreferences)

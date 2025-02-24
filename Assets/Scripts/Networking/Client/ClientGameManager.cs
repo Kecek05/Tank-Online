@@ -27,7 +27,13 @@ public class ClientGameManager : IDisposable
     public async Task<bool> InitAsync(bool isAnonymously = false)
     {
         //Authenticate player
-        await UnityServices.InitializeAsync();
+
+        //Debugging code
+        InitializationOptions initializationOptions = new InitializationOptions();
+        initializationOptions.SetProfile(UnityEngine.Random.Range(0, 10000).ToString());
+        await UnityServices.InitializeAsync(initializationOptions);
+        //
+        //await UnityServices.InitializeAsync();
 
         networkClient = new NetworkClient(NetworkManager.Singleton);
         matchmaker = new MatchplayMatchmaker();
