@@ -8,7 +8,10 @@ public class NetworkServer : IDisposable
 {
     private NetworkManager networkManager;
 
-    public Action<string> OnClientLeft;
+    public event Action<string> OnClientLeft;
+
+    public event Action<UserData> OnUserJoined;
+    public event Action<UserData> OnUserLeft;
 
     private Dictionary<ulong, string> clientIdToAuth = new Dictionary<ulong, string>(); // save client IDs to their authentication IDs
     private Dictionary<string, UserData> authIdToUserData = new Dictionary<string, UserData>(); // save authentication IDs to user data
@@ -38,6 +41,8 @@ public class NetworkServer : IDisposable
         clientIdToAuth[request.ClientNetworkId] = userData.userAuthId; //if dont exist, add to dictionary
         authIdToUserData[userData.userAuthId] = userData; 
 
+        OnUserJoined?.Invoke(userData);
+
         response.Approved = true; // connection is approved
         response.Position = SpawnPoint.GetRandomSpawnPos(); // set the spawn position
         response.Rotation = Quaternion.identity;
@@ -57,6 +62,7 @@ public class NetworkServer : IDisposable
         if(clientIdToAuth.TryGetValue(clientId, out string authId)) //Handle disconnections
         {
             clientIdToAuth.Remove(clientId);
+            OnUserLeft?.Invoke(authIdToUserData[authId]);
             authIdToUserData.Remove(authId);
             
             OnClientLeft?.Invoke(authId);

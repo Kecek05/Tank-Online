@@ -1,11 +1,15 @@
+using Sortify;
 using System.Threading.Tasks;
 using UnityEngine;
 
 public class ApplicationController : MonoBehaviour
 {
+    [BetterHeader("Singletons")]
     [SerializeField] private ClientSingleton clientPrefab;
     [SerializeField] private HostSingleton hostPrefab;
     [SerializeField] private ServerSingleton serverPrefab;
+
+    private ApplicationData applicationData;
 
     private async void Start()
     {
@@ -18,6 +22,8 @@ public class ApplicationController : MonoBehaviour
     {
         if(isDedicatedServer)
         {
+            applicationData = new ApplicationData();
+
             ServerSingleton serverSingleton = Instantiate(serverPrefab);
 
             await serverSingleton.CreateServer();

@@ -1,4 +1,6 @@
 using Sortify;
+using System;
+using System.Collections;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -14,10 +16,12 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private TMP_InputField lobbyCodeInputField;
     [SerializeField] private GameObject backgroundJoining;
 
+    [Space(5)]
     [BetterHeader("Lobby UI")]
     [SerializeField] private GameObject lobbyBackgroundUI;
     [SerializeField] private Button closeLobbyBackgroundBtn;
 
+    [Space(5)]
     [BetterHeader("MatchMaking References")]
     [SerializeField] private Button findMatchBtn;
     [SerializeField] private TextMeshProUGUI findMatchBtnText;
@@ -25,7 +29,10 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI queueStatusTxt;
     private bool isMatchmaking;
     private bool isCancelling;
+    private Coroutine queueTimerCoroutine;
+    private WaitForSeconds delayQueueTimer = new(1);
 
+    [Space(5)]
     [BetterHeader("PlayerInfo References")]
     [SerializeField] private PlayerInfoUI playerInfoUI;
     [SerializeField] private RenameUI renameUI;
@@ -81,6 +88,11 @@ public class MainMenuUI : MonoBehaviour
                 isCancelling = false;
                 isMatchmaking = false;
                 findMatchBtnText.text = "FIND MATCH";
+                if (queueTimerCoroutine != null)
+                {
+                    StopCoroutine(queueTimerCoroutine);
+                    queueTimerCoroutine = null;
+                }
                 queueStatusTxt.text = string.Empty;
                 timeInQueueTxt.text = string.Empty;
                 UnlocksAllButtons();
@@ -92,6 +104,8 @@ public class MainMenuUI : MonoBehaviour
             LocksAllButtons();
             findMatchBtnText.text = "CANCEL";
             queueStatusTxt.text = "Searching for a match...";
+            if(queueTimerCoroutine == null)
+                queueTimerCoroutine = StartCoroutine(QueueTimer());
             isMatchmaking = true;
 
 
@@ -99,6 +113,23 @@ public class MainMenuUI : MonoBehaviour
 
         });
     }
+
+
+
+    private IEnumerator QueueTimer()
+    {
+        int totalTimeInQueue = 0;
+
+        while (true)
+        {
+            totalTimeInQueue++;
+            TimeSpan ts = TimeSpan.FromSeconds(totalTimeInQueue);
+            timeInQueueTxt.text = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds); // {0:00} the first 0 is the first parameter, the second 0 is the format, 00 means 2 digits
+
+            yield return delayQueueTimer;
+        }
+    }
+
 
     private void OnMatchMade(MatchmakerPollingResult result) // as soon as the match has been made, this method will be called
     {
