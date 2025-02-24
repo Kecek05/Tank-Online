@@ -21,10 +21,13 @@ public class TankPlayer : NetworkBehaviour
 
     [SerializeField] private Texture2D crosshair;
 
+
     [BetterHeader("Settings")]
     private int ownerPriority = 10;
 
     [SerializeField] private Color ownerMinimapColor;
+
+
 
     public NetworkVariable<FixedString32Bytes> PlayerName { get; private set; } = new NetworkVariable<FixedString32Bytes>(new FixedString32Bytes()); // similar to string
 

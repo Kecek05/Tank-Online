@@ -1,3 +1,4 @@
+using Sortify;
 using System;
 using Unity.Netcode;
 using UnityEngine;
@@ -6,10 +7,10 @@ public class ProjectileLauncher : NetworkBehaviour
 {
     public event Action OnPrimaryFire;
 
-    [Header("Input")]
+    [BetterHeader("Input")]
     [SerializeField] private InputReader inputReader;
 
-    [Header("References")]
+    [BetterHeader("References")]
     [SerializeField] private Transform projectileSpawnPoint;
 
     [SerializeField] private GameObject serverProjectilePrefab;
@@ -19,7 +20,7 @@ public class ProjectileLauncher : NetworkBehaviour
     [SerializeField] private Collider2D playerCollider;
     [SerializeField] private CoinWallet coinWallet;
 
-    [Header("Settings")]
+    [BetterHeader("Settings")]
     [SerializeField] private float projectileSpeed = 10f;
     [Tooltip("0.5 = 1 bullet each 0.5 secconds")]
     [SerializeField] private float cooldownToFire = 0.5f;
