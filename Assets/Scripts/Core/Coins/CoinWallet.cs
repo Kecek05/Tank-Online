@@ -7,6 +7,7 @@ public class CoinWallet : NetworkBehaviour
 {
     [BetterHeader("References")]
     [SerializeField] private Health health;
+
     [SerializeField] private BountyCoin bountyCoinPrefab;
 
     [BetterHeader("Settings")]
