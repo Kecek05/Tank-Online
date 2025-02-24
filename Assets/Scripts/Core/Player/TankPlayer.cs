@@ -19,6 +19,8 @@ public class TankPlayer : NetworkBehaviour
 
     [SerializeField] private SpriteRenderer minimapIconspriteRenderer;
 
+    [SerializeField] private Texture2D crosshair;
+
     [BetterHeader("Settings")]
     private int ownerPriority = 10;
 
@@ -46,6 +48,8 @@ public class TankPlayer : NetworkBehaviour
             StartCoroutine(DelayCamerabounds());
 
             minimapIconspriteRenderer.color = ownerMinimapColor;
+
+            Cursor.SetCursor(crosshair, new Vector2(crosshair.width / 2, crosshair.height / 2), CursorMode.Auto);
         }
     }
 

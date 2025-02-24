@@ -17,6 +17,11 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private GameObject lobbyBackgroundUI;
     [SerializeField] private Button closeLobbyBackgroundBtn;
 
+    [BetterHeader("MatchMaking References")]
+    [SerializeField] private Button findMatchBtn;
+    [SerializeField] private TextMeshProUGUI timeInQueueTxt;
+    [SerializeField] private TextMeshProUGUI queueStatusTxt;
+
     private async void Awake()
     {
         hostBtn.onClick.AddListener(async () =>
@@ -56,8 +61,16 @@ public class MainMenuUI : MonoBehaviour
 
     private void Start()
     {
+        if (ClientSingleton.Instance == null) return; //It's dedicated server
+
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+
         lobbyBackgroundUI.SetActive(false);
         HideBackgroundJoining();
+
+        //Clear Matchmaking
+        timeInQueueTxt.text = string.Empty;
+        queueStatusTxt.text = string.Empty;
     }
 
     public void ShowBackgroundJoining()

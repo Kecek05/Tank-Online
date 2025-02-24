@@ -532,6 +532,7 @@ MonoBehaviour:
   health: {fileID: 1822853730113279632}
   coinWallet: {fileID: 1772867737504192367}
   minimapIconspriteRenderer: {fileID: 3368618569684666640}
+  crosshair: {fileID: 2800000, guid: 0a07aa6c8e0036a4e986443af5afbbd3, type: 3}
   ownerMinimapColor: {r: 0.014017418, g: 0.2768776, b: 0.990566, a: 1}
 --- !u!114 &164789543942569062
 MonoBehaviour:
