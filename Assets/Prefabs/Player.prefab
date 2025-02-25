@@ -980,6 +980,7 @@ MonoBehaviour:
   - {fileID: 3368618569684666640}
   - {fileID: 3477951838645915014}
   minimapSpriteRenderer: {fileID: 3368618569684666640}
+  projectileLauncher: {fileID: 6799874828294725812}
 --- !u!212 &6990388884799437314
 SpriteRenderer:
   m_ObjectHideFlags: 0

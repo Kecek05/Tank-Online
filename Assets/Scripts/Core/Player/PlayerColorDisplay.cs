@@ -9,6 +9,7 @@ public class PlayerColorDisplay : NetworkBehaviour
     [SerializeField] private TankPlayer tankPlayer;
     [SerializeField] private SpriteRenderer[] tankSpriteRenderers;
     [SerializeField] private SpriteRenderer minimapSpriteRenderer;
+    [SerializeField] private ProjectileLauncher projectileLauncher;
 
     private void Start()
     {
@@ -21,6 +22,8 @@ public class PlayerColorDisplay : NetworkBehaviour
     private void OnTeamIndexChanged(int previousValue, int newValue)
     {
         Color myTeamColor = teamColorLookup.GetTeamColor(newValue);
+
+        projectileLauncher.SetMyColor(myTeamColor);
 
         foreach (SpriteRenderer spriteRenderer in tankSpriteRenderers)
         {

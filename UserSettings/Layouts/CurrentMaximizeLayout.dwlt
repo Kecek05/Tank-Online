@@ -23,7 +23,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 5096
+  controlID: 6906
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 5097
+  controlID: 6907
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 5098
+  controlID: 6908
   draggingID: 0
 --- !u!114 &5
 MonoBehaviour:
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 5099
+  controlID: 6909
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -944,9 +944,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 299.8227, y: 478.03302, z: -0.90883714}
+    m_Target: {x: 692.4949, y: 434.80316, z: -0.90883714}
     speed: 2
-    m_Value: {x: 299.8227, y: 478.03302, z: -0.90883714}
+    m_Value: {x: 692.4949, y: 434.80316, z: -0.90883714}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1053,7 +1053,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 5173
+  controlID: 6983
   draggingID: 0
 --- !u!114 &11
 MonoBehaviour:
@@ -1084,7 +1084,7 @@ MonoBehaviour:
   - {fileID: 15}
   - {fileID: 16}
   m_Selected: 3
-  m_LastSelected: 2
+  m_LastSelected: 1
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1244,7 +1244,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1397,7 +1397,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1474,7 +1474,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs
+    - Assets/Prefabs/Projectiles
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1484,16 +1484,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Prefabs
+  - Assets/Prefabs/Projectiles
   m_LastFoldersGridSize: 16
   m_LastProjectPath: F:\UnityProjects\TankOnline
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
     scrollPos: {x: 0, y: 9}
-    m_SelectedIDs: a00a0100
-    m_LastClickedID: 68256
-    m_ExpandedIDs: 000000009609010000ca9a3bffffff7f
+    m_SelectedIDs: b6260100
+    m_LastClickedID: 75446
+    m_ExpandedIDs: 0000000096090100a00a010000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1844,7 +1844,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Core/Player
+    - Assets/Scripts/Networking/Server
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1854,16 +1854,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scripts/Core/Player
+  - Assets/Scripts/Networking/Server
   m_LastFoldersGridSize: 16
   m_LastProjectPath: F:\UnityProjects\TankOnline
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
     scrollPos: {x: 0, y: 127}
-    m_SelectedIDs: c2260100
-    m_LastClickedID: 75458
-    m_ExpandedIDs: 0000000096090100a60a01001e0b010000ca9a3bffffff7f
+    m_SelectedIDs: 1a0b0100
+    m_LastClickedID: 68378
+    m_ExpandedIDs: 0000000096090100a60a01001c0b01001e0b010000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1920,7 +1920,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: a8130100
     m_RenameOverlay:
       m_UserAcceptedRename: 0

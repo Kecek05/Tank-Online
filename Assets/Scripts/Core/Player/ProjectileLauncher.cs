@@ -32,6 +32,9 @@ public class ProjectileLauncher : NetworkBehaviour
 
     [SerializeField] private float muzzleFlashDuration;
 
+    private Color myColor;
+    public Color MyColor => myColor;
+
 
     private bool isPointerOverUI;
     private bool shouldFire;
@@ -99,6 +102,9 @@ public class ProjectileLauncher : NetworkBehaviour
 
         GameObject projectileInstance = Instantiate(clientProjectilePrefab, spawnPos, Quaternion.identity);
 
+        projectileInstance.transform.GetComponentInChildren<SpriteRenderer>().color = myColor; //Change the color to the player color
+
+
         projectileInstance.transform.up = direction;
 
         Physics2D.IgnoreCollision(playerCollider, projectileInstance.GetComponent<Collider2D>());
@@ -153,4 +159,9 @@ public class ProjectileLauncher : NetworkBehaviour
         this.shouldFire = shouldFire;
     }
 
+
+    public void SetMyColor(Color color)
+    {
+        myColor = color;
+    }
 }
