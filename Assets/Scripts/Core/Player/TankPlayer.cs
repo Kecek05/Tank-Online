@@ -26,10 +26,11 @@ public class TankPlayer : NetworkBehaviour
     private int ownerPriority = 10;
 
     [SerializeField] private Color ownerMinimapColor;
+    public Color OwnerMinimapColor => ownerMinimapColor;
 
 
-
-    public NetworkVariable<FixedString32Bytes> PlayerName { get; private set; } = new NetworkVariable<FixedString32Bytes>(new FixedString32Bytes()); // similar to string
+    public NetworkVariable<FixedString32Bytes> PlayerName { get; private set; } = new NetworkVariable<FixedString32Bytes>(); // similar to string
+    public NetworkVariable<int> TeamIndex { get; private set; } = new NetworkVariable<int>();
 
     public static event Action<TankPlayer> OnPlayerSpawned;
 
@@ -52,6 +53,8 @@ public class TankPlayer : NetworkBehaviour
             }
 
             PlayerName.Value = userData.userName;
+            TeamIndex.Value = userData.teamIndex;
+
 
             OnPlayerSpawned?.Invoke(this);
         }

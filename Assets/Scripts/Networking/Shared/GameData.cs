@@ -22,6 +22,7 @@ public class UserData
 {
     public string userName;
     public string userAuthId;
+    public int teamIndex = -1; // If not playing in a team, its -1 else its a team Index valid from 0 to 3
 
     public GameInfo userGamePreferences = new GameInfo();
 }

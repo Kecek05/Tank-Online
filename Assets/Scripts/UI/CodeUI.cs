@@ -20,7 +20,7 @@ public class CodeUI : NetworkBehaviour
         else if (IsClient)
             codeXTxt.text = ClientSingleton.Instance.GameManager.JoinCode;
 
-        if(codeXTxt.text == null)
+        if(codeXTxt.text == null || codeXTxt.text == string.Empty)
         {
             //It's a dedicated server
             codeTitle.SetActive(false);

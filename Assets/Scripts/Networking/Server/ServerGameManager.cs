@@ -27,6 +27,8 @@ public class ServerGameManager : IDisposable
 
     private MatchplayBackfiller matchplayBackfiller;
 
+    private Dictionary<string, int> teamIdToTeamIndex = new Dictionary<string, int>();
+
     public ServerGameManager(string serverIP, int serverPort, int queryPort, NetworkManager manager, NetworkObject playerPrefab) //Constructor, called when class is built 
     {
         this.serverIP = serverIP;
@@ -84,7 +86,16 @@ public class ServerGameManager : IDisposable
     private void UserJoined(UserData userData)
     {
         Team team = matchplayBackfiller.GetTeamByUserId(userData.userAuthId);
-        Debug.Log($"User: {userData.userName} - {userData.userAuthId} joined Team: {team.TeamId}");
+        if(!teamIdToTeamIndex.TryGetValue(team.TeamId, out int teamIndex)) // if not found a team, its the first person to join that team, add the team to the dictionary
+        {
+            teamIndex = teamIdToTeamIndex.Count;
+            teamIdToTeamIndex.Add(team.TeamId, teamIndex);
+        }
+
+        userData.teamIndex = teamIndex;
+
+
+        //Debug.Log($"User: {userData.userName} - {userData.userAuthId} joined Team: {team.TeamId}");
 
         multiplayAllocationService.AddPlayer(); //Analytics
 
