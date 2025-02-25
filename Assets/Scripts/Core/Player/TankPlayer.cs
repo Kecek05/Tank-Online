@@ -1,3 +1,4 @@
+using QFSW.QC;
 using Sortify;
 using System;
 using System.Collections;
@@ -90,5 +91,12 @@ public class TankPlayer : NetworkBehaviour
                 
             yield return null;
         }
+    }
+
+    [Command("player-setTeam")]
+    public void DebugSetPlayerTeam(int teamIndex)
+    {
+        TeamIndex.Value = teamIndex;
+        Debug.Log($"Player {PlayerName.Value} set to team {teamIndex}");
     }
 }
