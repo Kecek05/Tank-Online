@@ -583,6 +583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   inputReader: {fileID: 11400000, guid: 0aaa0e505d79eb449a5ae92c52a43630, type: 2}
+  player: {fileID: 8903717643099212242}
   projectileSpawnPoint: {fileID: 6070688654290860472}
   serverProjectilePrefab: {fileID: 6950150211025965372, guid: 119147ff4805b274288567691bbd58a8, type: 3}
   clientProjectilePrefab: {fileID: 1148523406903205635, guid: a88b716291affde4b9db20d6060dce40, type: 3}

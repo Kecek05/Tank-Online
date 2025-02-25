@@ -12,6 +12,7 @@ public class ProjectileLauncher : NetworkBehaviour
     [SerializeField] private InputReader inputReader;
 
     [BetterHeader("References")]
+    [SerializeField] private TankPlayer player;
     [SerializeField] private Transform projectileSpawnPoint;
 
     [SerializeField] private GameObject serverProjectilePrefab;
@@ -88,14 +89,14 @@ public class ProjectileLauncher : NetworkBehaviour
 
         PrimaryFireRpc(projectileSpawnPoint.position, projectileSpawnPoint.up);
 
-        SpawnDummyProjectile(projectileSpawnPoint.position, projectileSpawnPoint.up);
+        SpawnDummyProjectile(projectileSpawnPoint.position, projectileSpawnPoint.up, player.TeamIndex.Value);
 
         cooldownToFireTimer = 0f;
 
         OnPrimaryFire?.Invoke();
     }
 
-    private void SpawnDummyProjectile(Vector3 spawnPos, Vector3 direction)
+    private void SpawnDummyProjectile(Vector3 spawnPos, Vector3 direction, int teamIndex)
     {
         muzzleFlash.SetActive(true);
         muzzleFlashTimer = muzzleFlashDuration;
@@ -113,14 +114,20 @@ public class ProjectileLauncher : NetworkBehaviour
         {
             rb.linearVelocity = rb.transform.up * projectileSpeed;
         }
+
+        if (projectileInstance.TryGetComponent<Projectile>(out Projectile projectile))
+        {
+            projectile.Initialize(teamIndex);
+        }
+
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void SpawnDummyProjectileRpc(Vector3 spawnPos, Vector3 direction)
+    private void SpawnDummyProjectileRpc(Vector3 spawnPos, Vector3 direction, int teamIndex)
     {
         if(IsOwner) return;
 
-        SpawnDummyProjectile(spawnPos, direction);
+        SpawnDummyProjectile(spawnPos, direction, teamIndex);
     }
 
 
@@ -138,9 +145,14 @@ public class ProjectileLauncher : NetworkBehaviour
 
         Physics2D.IgnoreCollision(playerCollider, projectileInstance.GetComponent<Collider2D>());
 
-        if(projectileInstance.TryGetComponent<DealDamageOnContact>(out DealDamageOnContact dealDamage))
+        //if(projectileInstance.TryGetComponent<DealDamageOnContact>(out DealDamageOnContact dealDamage)) // now its going to get the dealDamage script from the projectile, because its teams
+        //{
+        //    dealDamage.SetOwner(OwnerClientId); // who owns this script also owns this projectile
+        //}
+
+        if (projectileInstance.TryGetComponent<Projectile>(out Projectile projectile))
         {
-            dealDamage.SetOwner(OwnerClientId); // who owns this script also owns this projectile
+            projectile.Initialize(player.TeamIndex.Value);
         }
 
         if (projectileInstance.TryGetComponent<Rigidbody2D>(out Rigidbody2D rb))
@@ -148,7 +160,7 @@ public class ProjectileLauncher : NetworkBehaviour
             rb.linearVelocity = rb.transform.up * projectileSpeed;
         }
 
-        SpawnDummyProjectileRpc(spawnPos, direction);
+        SpawnDummyProjectileRpc(spawnPos, direction, player.TeamIndex.Value);
     }
 
 
