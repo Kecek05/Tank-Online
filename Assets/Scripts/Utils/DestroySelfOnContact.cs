@@ -9,12 +9,15 @@ public class DestroySelfOnContact : MonoBehaviour
     {
         if(projectile.TeamIndex != -1) // The game mode isnt FFA
         {
-            if (collision.attachedRigidbody.TryGetComponent(out TankPlayer tankPlayer))
+            if (collision.attachedRigidbody != null)
             {
-                if (tankPlayer.TeamIndex.Value == projectile.TeamIndex)
+                if (collision.attachedRigidbody.TryGetComponent(out TankPlayer tankPlayer))
                 {
-                    //Friendly fire
-                    return;
+                    if (tankPlayer.TeamIndex.Value == projectile.TeamIndex)
+                    {
+                        //Friendly fire
+                        return;
+                    }
                 }
             }
         }
