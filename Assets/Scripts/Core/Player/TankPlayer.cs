@@ -96,7 +96,13 @@ public class TankPlayer : NetworkBehaviour
     [Command("player-setTeam")]
     public void DebugSetPlayerTeam(int teamIndex)
     {
-        TeamIndex.Value = teamIndex;
+        DebugSetPlayerTeamRpc(teamIndex);
         Debug.Log($"Player {PlayerName.Value} set to team {teamIndex}");
+    }
+
+    [Rpc(SendTo.Server)]
+    private void DebugSetPlayerTeamRpc(int teamIndex)
+    {
+        TeamIndex.Value = teamIndex;
     }
 }
