@@ -140,7 +140,7 @@ public class LeaderboardUI : NetworkBehaviour
             }
         }
 
-        if (teamLeaderboardBackground.activeSelf) return; //not team, return
+        if (!teamLeaderboardBackground.activeSelf) return; //not team, return
 
         LeaderboardEntity teamDisplay = teamEntityDisplays.FirstOrDefault(x => x.TeamIndex == changeEvent.Value.TeamIndex);
         //if the player gain 5 coins, the team should also gain 5 coins.
