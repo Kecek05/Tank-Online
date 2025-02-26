@@ -20,6 +20,8 @@ public class ClientGameManager : IDisposable
     private MatchplayMatchmaker matchmaker;
 
     private UserData userData;
+    public UserData UserData => userData;
+
 
     public string joinCode;
     public string JoinCode => joinCode;

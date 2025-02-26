@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using Sortify;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,14 +8,26 @@ using UnityEngine;
 
 public class LeaderboardUI : NetworkBehaviour
 {
+    [BetterHeader("References")]
     [SerializeField] private Transform leaderboardEntityHolder;
+    [SerializeField] private Transform teamLeaderboardEntityHolder;
+    [SerializeField] private GameObject teamLeaderboardBackground;
     [SerializeField] private GameObject leaderboardEntityPrefab;
+
+
+    [BetterHeader("Settings")]
+    [SerializeField] private Color ownerColor;
+
+    [SerializeField] private string[] teamNames;
+    [SerializeField] private TeamColorLookup teamColorLookup;
 
     [SerializeField] private const int ENTITIES_TO_DISPLAY = 10;
 
     private NetworkList<LeaderboardEntityState> leaderboardEntities;
 
     private List<LeaderboardEntity> entityDisplays = new List<LeaderboardEntity>();
+
+    private List<LeaderboardEntity> teamEntityDisplays = new List<LeaderboardEntity>();
 
     private void Awake()
     {
@@ -25,6 +38,22 @@ public class LeaderboardUI : NetworkBehaviour
     {
         if(IsClient)
         {
+            if(ClientSingleton.Instance.GameManager.UserData.userGamePreferences.gameQueue == GameQueue.Team)
+            {
+                teamLeaderboardBackground.SetActive(true);
+                
+                for (int i = 0; i < teamNames.Length; i++)
+                {
+                    LeaderboardEntity teamLeaderboardEntity = Instantiate(leaderboardEntityPrefab, teamLeaderboardEntityHolder).GetComponent<LeaderboardEntity>();
+                    teamLeaderboardEntity.Setup(i, teamNames[i].ToString(), 0);
+
+                    Color teamColor = teamColorLookup.GetTeamColor(i);
+                    teamLeaderboardEntity.SetColor(teamColor);
+
+                    teamEntityDisplays.Add(teamLeaderboardEntity);
+                }
+            }
+
             leaderboardEntities.OnListChanged += LeaderboardEntities_OnListChanged;
 
             foreach(LeaderboardEntityState entity in leaderboardEntities)
@@ -61,6 +90,11 @@ public class LeaderboardUI : NetworkBehaviour
                     LeaderboardEntity leaderboardEntity = Instantiate(leaderboardEntityPrefab, leaderboardEntityHolder).GetComponent<LeaderboardEntity>();
 
                     leaderboardEntity.Setup(changeEvent.Value.ClientId, changeEvent.Value.PlayerName, changeEvent.Value.Coins);
+
+                    if(NetworkManager.Singleton.LocalClientId == changeEvent.Value.ClientId)
+                    {
+                        leaderboardEntity.SetColor(ownerColor);
+                    }
 
                     entityDisplays.Add(leaderboardEntity);
                 }
@@ -105,6 +139,29 @@ public class LeaderboardUI : NetworkBehaviour
                 myDisplay.gameObject.SetActive(true);
             }
         }
+
+        if (teamLeaderboardBackground.activeSelf) return; //not team, return
+
+        LeaderboardEntity teamDisplay = teamEntityDisplays.FirstOrDefault(x => x.TeamIndex == changeEvent.Value.TeamIndex);
+        //if the player gain 5 coins, the team should also gain 5 coins.
+        if(teamDisplay != null)
+        {
+            if(changeEvent.Type == NetworkListEvent<LeaderboardEntityState>.EventType.Remove)
+            {
+                teamDisplay.UpdateCoins(teamDisplay.Coins - changeEvent.Value.Coins);
+            } else
+            {
+                teamDisplay.UpdateCoins(teamDisplay.Coins + (changeEvent.Value.Coins - changeEvent.PreviousValue.Coins));
+            }
+
+            teamEntityDisplays.Sort((x, y) => y.Coins.CompareTo(x.Coins)); // sort the list by coins, more coins, at the top of the list
+
+            for(int i = 0; i < teamEntityDisplays.Count; i++)
+            {
+                teamEntityDisplays[i].transform.SetSiblingIndex(i); // set the sibling index to the index of the list, the order based on the index
+                teamEntityDisplays[i].UpdateText();
+            }
+        }
     }
 
     public override void OnNetworkDespawn()
@@ -126,6 +183,7 @@ public class LeaderboardUI : NetworkBehaviour
         {
             ClientId = player.OwnerClientId,
             PlayerName = player.PlayerName.Value,
+            TeamIndex = player.TeamIndex.Value,
             Coins = 0
         });
         
@@ -158,6 +216,7 @@ public class LeaderboardUI : NetworkBehaviour
             {
                 ClientId = clientId,
                 PlayerName = leaderboardEntities[i].PlayerName,
+                TeamIndex = leaderboardEntities[i].TeamIndex,
                 Coins = newCoins
             };
             return;
